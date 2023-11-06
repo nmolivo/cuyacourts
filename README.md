@@ -6,3 +6,5 @@ Court Data Transparency: A database of Cuyahoga County's Criminal Court Case doc
 - https://testdriven.io/blog/deploying-django-to-ecs-with-terraform/
 - https://www.youtube.com/watch?v=oCu3_JKsYYc
 - https://docs.djangoproject.com/en/4.2/intro/tutorial03/
+
+We used a CDN to cache our html, server side rendered React with a separate Node process and fetched customer specific data client side from an API.
