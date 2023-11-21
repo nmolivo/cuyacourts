@@ -19,7 +19,7 @@
 
 /* Colors */
 :root {
-  --color-default: #0a0d13;
+  --color-default: #140f3a;
   --color-primary: #450dff;
   --color-secondary: #200b6a;
 }
@@ -43,7 +43,7 @@ a {
 }
 
 a:hover {
-  color: #406aff;
+  color: #450dff;
   text-decoration: none;
 }
 
@@ -100,7 +100,7 @@ section {
 .section-header span {
   position: absolute;
   top: 46px;
-  color: rgba(14, 29, 52, 0.06);
+  color: #140f3a49;
   left: 0;
   right: 0;
   z-index: 1;
@@ -140,8 +140,8 @@ section {
 
 .breadcrumbs .page-header:before {
   content: "";
-  background-color: rgba(14, 29, 52, 0.8);
-  position: absolute;
+  background-color: #140f3a;
+  position: absolute; 
   inset: 0;
 }
 
@@ -188,7 +188,7 @@ section {
 .breadcrumbs nav ol li+li::before {
   display: inline-block;
   padding-right: 10px;
-  color: #4278cc;
+  color: #5242cc;
   content: "/";
 }
 
@@ -216,7 +216,7 @@ section {
 }
 
 .scroll-top:hover {
-  background: rgba(13, 66, 255, 0.8);
+  background:#450dff;
   color: #fff;
 }
 
@@ -289,9 +289,9 @@ section {
 }
 
 .header.sticked {
-  background: rgba(14, 29, 52, 0.9);
+  background: rgba(20, 14, 52, 0.9);
   padding: 15px 0;
-  box-shadow: 0px 2px 20px rgba(14, 29, 52, 0.1);
+  box-shadow: 0px 2px 20px rgba(20, 14, 52, 0.9);
 }
 
 .header .logo img {
@@ -381,7 +381,7 @@ section {
     opacity: 0;
     visibility: hidden;
     background: #fff;
-    box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+    box-shadow: 0px 0px 30px rgba(138, 127, 161, 0.25);
     transition: 0.3s;
     border-radius: 4px;
   }
@@ -466,7 +466,7 @@ section {
     inset: 0;
     padding: 50px 0 10px 0;
     margin: 0;
-    background: rgba(14, 29, 52, 0.9);
+    background: rgba(26, 14, 52, 0.9);
     overflow-y: auto;
     transition: 0.3s;
     z-index: 9998;
@@ -512,7 +512,7 @@ section {
   .navbar .get-a-quote:hover,
   .navbar .get-a-quote:focus:hover {
     color: #fff;
-    background: rgba(13, 66, 255, 0.8);
+    background:#450dff;
   }
 
   .navbar .dropdown ul,
@@ -522,7 +522,7 @@ section {
     padding: 10px 0;
     margin: 10px 20px;
     transition: all 0.5s ease-in-out;
-    border: 1px solid #19335c;
+    border: 1px solid #22195c;
   }
 
   .navbar .dropdown>.dropdown-active,
@@ -564,7 +564,7 @@ section {
     content: "";
     position: fixed;
     inset: 0;
-    background: rgba(14, 29, 52, 0.8);
+    background: rgba(25, 14, 52, 0.8);
     z-index: 9996;
   }
 }
@@ -583,7 +583,7 @@ section {
 }
 
 .featured-services .service-item .icon i {
-  color: #001f8d;
+  color: #28008d;
   font-size: 48px;
   transition: 0.3s;
 }
@@ -606,7 +606,7 @@ section {
 
 .featured-services .service-item .description {
   font-size: 15px;
-  color: #132848;
+  color: #1e1348;
   margin-bottom: 10px;
 }
 
@@ -636,7 +636,7 @@ section {
   font-weight: 700;
   font-size: 32px;
   font-family: var(--font-secondary);
-  color: #001f8d;
+  color: #2f008d;
 }
 
 .about .content ul {
@@ -661,7 +661,7 @@ section {
 .about .content ul h5 {
   font-size: 18px;
   font-weight: 700;
-  color: #19335c;
+  color: #26195c;
 }
 
 .about .content ul p {
@@ -675,7 +675,7 @@ section {
 .about .play-btn {
   width: 94px;
   height: 94px;
-  background: radial-gradient(var(--color-primary) 50%, rgba(13, 66, 255, 0.4) 52%);
+  background: radial-gradient(var(--color-primary) 50%, rgba(74, 13, 255, 0.4) 52%);
   border-radius: 50%;
   display: block;
   position: absolute;
@@ -696,10 +696,10 @@ section {
   animation-timing-function: steps;
   opacity: 1;
   border-radius: 50%;
-  border: 5px solid rgba(13, 66, 255, 0.7);
+  border: 5px solid rgba(94, 13, 255, 0.7);
   top: -15%;
   left: -15%;
-  background: rgba(198, 16, 0, 0);
+  background: rgba(0, 198, 43, 0);
 }
 
 .about .play-btn:after {
@@ -755,7 +755,7 @@ section {
 # Services Section
 --------------------------------------------------------------*/
 .services .card {
-  border: 1px solid rgba(14, 29, 52, 0.15);
+  border: 1px solid rgba(27, 14, 52, 0.15);
   background: #fff;
   position: relative;
   border-radius: 0;
@@ -781,7 +781,7 @@ section {
 }
 
 .services .card a {
-  color: #001973;
+  color: #190073;
   transition: 0.3;
 }
 
@@ -804,7 +804,7 @@ section {
 # Call To Action Section
 --------------------------------------------------------------*/
 .call-to-action {
-  background: linear-gradient(rgba(14, 29, 52, 0.6), rgba(14, 29, 52, 0.8)), url("../img/cta-bg.png") center center;
+  background: linear-gradient(rgba(27, 14, 52, 0.6), rgba(22, 14, 52, 0.8)), url("../img/cta-bg.png") center center;
   background-size: cover;
   padding: 100px 0;
 }
@@ -864,7 +864,7 @@ section {
 .features .features-item h3 {
   font-weight: 600;
   font-size: 26px;
-  color: #001973;
+  color: #2c0073;
 }
 
 .features .features-item ul {
@@ -895,7 +895,7 @@ section {
 --------------------------------------------------------------*/
 .pricing .pricing-item {
   padding: 60px 40px;
-  box-shadow: 0 3px 20px -2px rgba(108, 117, 125, 0.15);
+  box-shadow: 0 3px 20px -2px rgba(114, 108, 125, 0.15);
   background: #fff;
   height: 100%;
   border-top: 4px solid #fff;
@@ -922,14 +922,14 @@ section {
 }
 
 .pricing h4 span {
-  color: rgba(108, 117, 125, 0.8);
+  color: rgba(113, 108, 125, 0.8);
   font-size: 18px;
 }
 
 .pricing ul {
   padding: 20px 0;
   list-style: none;
-  color: #6c757d;
+  color: #736c7d;
   text-align: left;
   line-height: 20px;
 }
@@ -1764,7 +1764,7 @@ section {
 }
 
 .hero form .btn-primary:hover {
-  background-color: #2756ff;
+  background-color: #7627ff;
 }
 
 .hero .stats-item {
@@ -1873,7 +1873,7 @@ section {
 
 .footer .footer-links ul i {
   padding-right: 2px;
-  color: rgba(13, 66, 255, 0.8);
+  color: rgba(74, 13, 255, 0.8);
   font-size: 12px;
   line-height: 0;
 }
