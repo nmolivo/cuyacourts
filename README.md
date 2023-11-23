@@ -2,7 +2,7 @@
 
 Court Data Transparency: A database of Cuyahoga County's Criminal Court Case docket, available for download. Inspired by Harvard's Caselaw Access Project, and many others.
 
-Compressed: 220.2 MB
+Compressed: 220.2 MB<br>
 DB Size: 1166.19 MB
 
 - https://aws.amazon.com/blogs/containers/deploy-and-scale-django-applications-on-aws-app-runner/
