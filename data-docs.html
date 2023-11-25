@@ -28,6 +28,9 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/screen-9c19b03a.css" rel="stylesheet" media="screen" />
+  <link href="assets/css/print-966d6edc.css" rel="stylesheet" media="print" />
+  <script src="assets/js/all_nosearch-18c3ed8e.js"></script>
 </head>
 
 <body>
@@ -84,43 +87,744 @@
     <!-- ======= Service Details Section ======= -->
     <section id="service-details" class="service-details">
       <div class="container" data-aos="fade-up">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-4">
-            <div class="services-list">
-              <a href="#" class="active">Storage</a>
-              <a href="#">Logistics</a>
-              <a href="#">Cargo</a>
-              <a href="#">Trucking</a>
-              <a href="#">Packaging</a>
-              <a href="#">Warehousing</a>
-            </div>
-
-            <h4>Enim qui eos rerum in delectus</h4>
-            <p>Nam voluptatem quasi numquam quas fugiat ex temporibus quo est. Quia aut quam quod facere ut non occaecati ut aut. Nesciunt mollitia illum tempore corrupti sed eum reiciendis. Maxime modi rerum.</p>
-          </div>
-
-          <div class="col-lg-8">
-            <img src="assets/img/service-details.jpg" alt="" class="img-fluid services-img">
-            <h3>Temporibus et in vero dicta aut eius lidero plastis trand lined voluptas dolorem ut voluptas</h3>
-            <p>
-              Blanditiis voluptate odit ex error ea sed officiis deserunt. Cupiditate non consequatur et doloremque consequuntur. Accusantium labore reprehenderit error temporibus saepe perferendis fuga doloribus vero. Qui omnis quo sit. Dolorem architecto eum et quos deleniti officia qui.
-            </p>
-            <ul>
-              <li><i class="bi bi-check-circle"></i> <span>Aut eum totam accusantium voluptatem.</span></li>
-              <li><i class="bi bi-check-circle"></i> <span>Assumenda et porro nisi nihil nesciunt voluptatibus.</span></li>
-              <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea</span></li>
-            </ul>
-            <p>
-              Est reprehenderit voluptatem necessitatibus asperiores neque sed ea illo. Deleniti quam sequi optio iste veniam repellat odit. Aut pariatur itaque nesciunt fuga.
-            </p>
-            <p>
-              Sunt rem odit accusantium omnis perspiciatis officia. Laboriosam aut consequuntur recusandae mollitia doloremque est architecto cupiditate ullam. Quia est ut occaecati fuga. Distinctio ex repellendus eveniet velit sint quia sapiente cumque. Et ipsa perferendis ut nihil. Laboriosam vel voluptates tenetur nostrum. Eaque iusto cupiditate et totam et quia dolorum in. Sunt molestiae ipsum at consequatur vero. Architecto ut pariatur autem ad non cumque nesciunt qui maxime. Sunt eum quia impedit dolore alias explicabo ea.
-            </p>
-          </div>
-
+        <div class="toc-wrapper">
+          <img src="images/logo-1e815a84.png" class="logo" alt="" />
+          <ul id="toc" class="toc-list-h1">
+              <li>
+                <a href="#cuyacourts" class="toc-h1 toc-link" data-title="CuyaCourts v1.0">CuyaCourts</a>
+              </li>
+              <li>
+                <a href="#tables" class="toc-h1 toc-link" data-title="Tables">Tables</a>
+                  <ul class="toc-list-h2">
+                      <li>
+                        <a href="#action" class="toc-h2 toc-link" data-title="action">action</a>
+                      </li>
+                      <li>
+                        <a href="#alias" class="toc-h2 toc-link" data-title="alias">alias</a>
+                      </li>
+                      <li>
+                        <a href="#attorney" class="toc-h2 toc-link" data-title="attorney">attorney</a>
+                      </li>
+                      <li>
+                        <a href="#bond" class="toc-h2 toc-link" data-title="bond">bond</a>
+                      </li>
+                      <li>
+                        <a href="#case_defendant" class="toc-h2 toc-link" data-title="case_defendant">case_defendant</a>
+                      </li>
+                      <li>
+                        <a href="#charge" class="toc-h2 toc-link" data-title="charge">charge</a>
+                      </li>
+                      <li>
+                        <a href="#cost" class="toc-h2 toc-link" data-title="cost">cost</a>
+                      </li>
+                      <li>
+                        <a href="#defendant" class="toc-h2 toc-link" data-title="defendant">defendant</a>
+                      </li>
+                      <li>
+                        <a href="#docket" class="toc-h2 toc-link" data-title="docket">docket</a>
+                      </li>
+                      <li>
+                        <a href="#progress" class="toc-h2 toc-link" data-title="progress">progress</a>
+                      </li>
+                  </ul>
+              </li>
+              <li>
+                <a href="#database-erd" class="toc-h1 toc-link" data-title="Database ERD">Database ERD</a>
+              </li>
+          </ul>
         </div>
+        <div class="page-wrapper">
+          <div class="dark-box"></div>
+          <div class="content">
+            <h1 id='cuyacourts'>CuyaCourts<h1 id='tables'>Tables</h1><h2 id='action'>action</h2>
+    <table><thead>
+    <tr>
+    <th>column</th>
+    <th>nullable</th>
+    <th>type</th>
+    <th>descr</th>
+    <th>fkey</th>
+    </tr>
+    </thead><tbody>
+    <tr>
+    <td>id</td>
+    <td>NO</td>
+    <td>integer</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>case_number</td>
+    <td>NO</td>
+    <td>character varying</td>
+    <td></td>
+    <td>case_defendant[case_number]</td>
+    </tr>
+    <tr>
+    <td>event_date</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>event_description</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    </tbody></table>
+    <h2 id='alias'>alias</h2>
+    <table><thead>
+    <tr>
+    <th>column</th>
+    <th>nullable</th>
+    <th>type</th>
+    <th>descr</th>
+    <th>fkey</th>
+    </tr>
+    </thead><tbody>
+    <tr>
+    <td>id</td>
+    <td>NO</td>
+    <td>integer</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>defendant_id</td>
+    <td>NO</td>
+    <td>character varying</td>
+    <td></td>
+    <td>defendant[id]</td>
+    </tr>
+    <tr>
+    <td>case_number</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>name</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>dob</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    </tbody></table>
+    <h2 id='attorney'>attorney</h2>
+    <table><thead>
+    <tr>
+    <th>column</th>
+    <th>nullable</th>
+    <th>type</th>
+    <th>descr</th>
+    <th>fkey</th>
+    </tr>
+    </thead><tbody>
+    <tr>
+    <td>id</td>
+    <td>NO</td>
+    <td>integer</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>case_number</td>
+    <td>NO</td>
+    <td>character varying</td>
+    <td></td>
+    <td>case_defendant[case_number]</td>
+    </tr>
+    <tr>
+    <td>name</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>address</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>phone</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    </tbody></table>
+    <h2 id='bond'>bond</h2>
+    <table><thead>
+    <tr>
+    <th>column</th>
+    <th>nullable</th>
+    <th>type</th>
+    <th>descr</th>
+    <th>fkey</th>
+    </tr>
+    </thead><tbody>
+    <tr>
+    <td>id</td>
+    <td>NO</td>
+    <td>integer</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>case_number</td>
+    <td>NO</td>
+    <td>character varying</td>
+    <td></td>
+    <td>case_defendant[case_number]</td>
+    </tr>
+    <tr>
+    <td>bond_number</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>amount</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>bond_type</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>date_set</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>date_posted</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>bondsman_surety_co</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    </tbody></table>
+    <h2 id='case_defendant'>case_defendant</h2>
+    <table><thead>
+    <tr>
+    <th>column</th>
+    <th>nullable</th>
+    <th>type</th>
+    <th>descr</th>
+    <th>fkey</th>
+    </tr>
+    </thead><tbody>
+    <tr>
+    <td>case_number</td>
+    <td>NO</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>status</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>judge_name</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>next_event</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>arrested_date</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>arresting_agency</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>arresting_agency_report</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>court_of_appeals_case</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>date_scraped</td>
+    <td>YES</td>
+    <td>timestamp without time zone</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>defendant_id</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>name</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>defendant_status</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>date_of_birth</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>race</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>sex</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>other_cases</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>co_defendants</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    </tbody></table>
+    <h2 id='charge'>charge</h2>
+    <table><thead>
+    <tr>
+    <th>column</th>
+    <th>nullable</th>
+    <th>type</th>
+    <th>descr</th>
+    <th>fkey</th>
+    </tr>
+    </thead><tbody>
+    <tr>
+    <td>id</td>
+    <td>NO</td>
+    <td>integer</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>case_number</td>
+    <td>NO</td>
+    <td>character varying</td>
+    <td></td>
+    <td>case_defendant[case_number]</td>
+    </tr>
+    <tr>
+    <td>charge_type</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>statute</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>charge_description</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>disposition</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    </tbody></table>
+    <h2 id='cost'>cost</h2>
+    <table><thead>
+    <tr>
+    <th>column</th>
+    <th>nullable</th>
+    <th>type</th>
+    <th>descr</th>
+    <th>fkey</th>
+    </tr>
+    </thead><tbody>
+    <tr>
+    <td>id</td>
+    <td>NO</td>
+    <td>integer</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>case_number</td>
+    <td>NO</td>
+    <td>character varying</td>
+    <td></td>
+    <td>case_defendant[case_number]</td>
+    </tr>
+    <tr>
+    <td>account</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>amount</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    </tbody></table>
+    <h2 id='defendant'>defendant</h2>
+    <table><thead>
+    <tr>
+    <th>column</th>
+    <th>nullable</th>
+    <th>type</th>
+    <th>descr</th>
+    <th>fkey</th>
+    </tr>
+    </thead><tbody>
+    <tr>
+    <td>id</td>
+    <td>NO</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>name</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>status</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>marital_status</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>birth_city</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>birth_state</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>citizenship</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>address_1</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>address_2</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>address_3</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>city_state_zip</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>race</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>height</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>sex</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>weight</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>age</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>eyes</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>date_of_birth</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>hair</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    </tbody></table>
+    <h2 id='docket'>docket</h2>
+    <table><thead>
+    <tr>
+    <th>column</th>
+    <th>nullable</th>
+    <th>type</th>
+    <th>descr</th>
+    <th>fkey</th>
+    </tr>
+    </thead><tbody>
+    <tr>
+    <td>id</td>
+    <td>NO</td>
+    <td>integer</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>case_number</td>
+    <td>NO</td>
+    <td>character varying</td>
+    <td></td>
+    <td>case_defendant[case_number]</td>
+    </tr>
+    <tr>
+    <td>proceeding_date</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>filing_date</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>docket_party</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>docket_type</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>docket_description</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>pdf_link</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>image_s3_path</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    </tbody></table>
+    <h2 id='progress'>progress</h2>
+    <div class="highlight"><pre class="highlight plaintext"><code>
+      **Name**: view name
+      
+      **Schema**: view schema
+      
+      
+      ## comment
+      
+      
+      </code></pre></div>
+    <table><thead>
+    <tr>
+    <th>column</th>
+    <th>nullable</th>
+    <th>type</th>
+    <th>descr</th>
+    <th>fkey</th>
+    </tr>
+    </thead><tbody>
+    <tr>
+    <td>id</td>
+    <td>NO</td>
+    <td>integer</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>case_id</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>date_scraped</td>
+    <td>YES</td>
+    <td>timestamp without time zone</td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>details</td>
+    <td>YES</td>
+    <td>character varying</td>
+    <td></td>
+    <td></td>
+    </tr>
+    </tbody></table>
+    <h1 id='database-erd'>Database ERD</h1>
+  </div>
 
       </div>
     </section><!-- End Service Details Section -->
