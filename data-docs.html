@@ -16,7 +16,9 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -61,12 +63,14 @@
 
     <!-- ======= Breadcrumbs ======= -->
     <div class="breadcrumbs">
-      <div class="page-header d-flex align-items-center" style="background-image: url('assets/img/page-header.jpg');">
+      <div class="page-header d-flex align-items-center" style="background-image: url('../assets/img/cle-court.png');">
         <div class="container position-relative">
           <div class="row d-flex justify-content-center">
             <div class="col-lg-6 text-center">
               <h2>Data Documentation</h2>
-              <p>According to <a href="https://codes.ohio.gov/ohio-revised-code/section-149.43">Ohio Revised Code 149.43</a> all court records and dockets are public information. They’ve been made available by the <a href="https://cpdocket.cp.cuyahogacounty.us/">Cuyahoga County Clerk of Courts</a>.</p>
+              <p>According to <a href="https://codes.ohio.gov/ohio-revised-code/section-149.43">Ohio Revised Code
+                  149.43</a> all court records and dockets are public information. They’ve been made available by the <a
+                  href="https://cpdocket.cp.cuyahogacounty.us/">Cuyahoga County Clerk of Courts</a>.</p>
             </div>
           </div>
         </div>
@@ -89,49 +93,758 @@
 
           <div class="col-lg-4">
             <div class="services-list">
-              <a href="#" class="active">Storage</a>
-              <a href="#">Logistics</a>
-              <a href="#">Cargo</a>
-              <a href="#">Trucking</a>
-              <a href="#">Packaging</a>
-              <a href="#">Warehousing</a>
+              <a href="#tables" class="active">Tables</a>
+              <a href="#erd">Entity Relationship Diagram</a>
             </div>
 
-            <h4>Enim qui eos rerum in delectus</h4>
-            <p>Nam voluptatem quasi numquam quas fugiat ex temporibus quo est. Quia aut quam quod facere ut non occaecati ut aut. Nesciunt mollitia illum tempore corrupti sed eum reiciendis. Maxime modi rerum.</p>
+            <h4>About the data</h4>
+            <p>
+              Current version: 1.0<br><br>
+              Database documentation generated with Foliant.
+
+            </p>
           </div>
 
           <div class="col-lg-8">
-            <img src="assets/img/service-details.jpg" alt="" class="img-fluid services-img">
-            <h3>Temporibus et in vero dicta aut eius lidero plastis trand lined voluptas dolorem ut voluptas</h3>
-            <p>
-              Blanditiis voluptate odit ex error ea sed officiis deserunt. Cupiditate non consequatur et doloremque consequuntur. Accusantium labore reprehenderit error temporibus saepe perferendis fuga doloribus vero. Qui omnis quo sit. Dolorem architecto eum et quos deleniti officia qui.
-            </p>
-            <ul>
-              <li><i class="bi bi-check-circle"></i> <span>Aut eum totam accusantium voluptatem.</span></li>
-              <li><i class="bi bi-check-circle"></i> <span>Assumenda et porro nisi nihil nesciunt voluptatibus.</span></li>
-              <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea</span></li>
-            </ul>
-            <p>
-              Est reprehenderit voluptatem necessitatibus asperiores neque sed ea illo. Deleniti quam sequi optio iste veniam repellat odit. Aut pariatur itaque nesciunt fuga.
-            </p>
-            <p>
-              Sunt rem odit accusantium omnis perspiciatis officia. Laboriosam aut consequuntur recusandae mollitia doloremque est architecto cupiditate ullam. Quia est ut occaecati fuga. Distinctio ex repellendus eveniet velit sint quia sapiente cumque. Et ipsa perferendis ut nihil. Laboriosam vel voluptates tenetur nostrum. Eaque iusto cupiditate et totam et quia dolorum in. Sunt molestiae ipsum at consequatur vero. Architecto ut pariatur autem ad non cumque nesciunt qui maxime. Sunt eum quia impedit dolore alias explicabo ea.
-            </p>
+            <h4 id='tables'>Tables</h4>
+              <h5 id='action'>action</h5>
+              The action table contains court-ordered actions for each unique case/defendant.<br><br>
+              Some common terms seen in event_description are:
+              <ul>
+                <li>Bind Over refers to a judge's decision to order a defendant (someone accused of a crime) to be subjected to a trial as a result of a finding of probable cause at a preliminary hearing.</li>
+                <li>CIF references, or&nbsp; <a href="https://d2l2jhoszs7d12.cloudfront.net/state/Oregon/Oregon%20Judicial%20Branch/www.courts.oregon.gov/Family%20Law/Miscellaneous/Confidential%20Information%20Form%20(UTCR%202.130)/EntireCIFPacket.pdf">Confidential Information Forms</a></li>
+              </ul>
+              <table id="customers">
+                <thead>
+                  <tr>
+                    <th>column</th>
+                    <th>nullable</th>
+                    <th>type</th>
+                    <th>descr</th>
+                    <th>fkey</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>id</td>
+                    <td>NO</td>
+                    <td>integer</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>case_number</td>
+                    <td>NO</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td>case_defendant[case_number]</td>
+                  </tr>
+                  <tr>
+                    <td>event_date</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>event_description</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 id='alias'>alias</h5>
+              In criminal law, police and court records sometimes use an alias for an individual as well as their given name. Can be used to maintain a sense of anonymity.<br><br>
+              <table id="customers">
+                <thead>
+                  <tr>
+                    <th>column</th>
+                    <th>nullable</th>
+                    <th>type</th>
+                    <th>descr</th>
+                    <th>fkey</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>id</td>
+                    <td>NO</td>
+                    <td>integer</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>defendant_id</td>
+                    <td>NO</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td>defendant[id]</td>
+                  </tr>
+                  <tr>
+                    <td>case_number</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>name</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>dob</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 id='attorney'>attorney</h5>
+              There may be more than one attorney per case, and in the chance that a criminal defendant can't afford a lawyer, they will recieve legal consul via a court appointed Public Defender - a right guaranteed under the U.S. Constitution.<br><br>
+              <table id="customers">
+                <thead>
+                  <tr>
+                    <th>column</th>
+                    <th>nullable</th>
+                    <th>type</th>
+                    <th>descr</th>
+                    <th>fkey</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>id</td>
+                    <td>NO</td>
+                    <td>integer</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>case_number</td>
+                    <td>NO</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td>case_defendant[case_number]</td>
+                  </tr>
+                  <tr>
+                    <td>name</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>address</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>phone</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 id='bond'>bond</h5>
+              A <a href="https://www.thebailboys.com/what-is-the-difference-between-bail-and-bond">bail bond</a> is an agreement by a defendant to appear for trial or pay a sum of money set by the court. A bail bondsman co-signs the bail bond and charges the defendant a fee in return for guaranteeing the payment.<br><br>
+              <table id="customers">
+                <thead>
+                  <tr>
+                    <th>column</th>
+                    <th>nullable</th>
+                    <th>type</th>
+                    <th>descr</th>
+                    <th>fkey</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>id</td>
+                    <td>NO</td>
+                    <td>integer</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>case_number</td>
+                    <td>NO</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td>case_defendant[case_number]</td>
+                  </tr>
+                  <tr>
+                    <td>bond_number</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>amount</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>bond_type</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>date_set</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>date_posted</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>bondsman_surety_co</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 id='case_defendant'>case_defendant</h5>
+              <table id="customers">
+                <thead>
+                  <tr>
+                    <th>column</th>
+                    <th>nullable</th>
+                    <th>type</th>
+                    <th>descr</th>
+                    <th>fkey</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>case_number</td>
+                    <td>NO</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>status</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>judge_name</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>next_event</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>arrested_date</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>arresting_agency</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>arresting_agency_report</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>court_of_appeals_case</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>date_scraped</td>
+                    <td>YES</td>
+                    <td>timestamp without time zone</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>defendant_id</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>name</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>defendant_status</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>date_of_birth</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>race</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>sex</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>other_cases</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>co_defendants</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 id='charge'>charge</h5>
+              A charge is an accusation that a criminal defendant has broken <a href="https://codes.ohio.gov/ohio-revised-code">a specific law</a> (statute). 
+              Each case may have more than one charge. An Indictment (charge_type INDICT) is when the formal charge issued by a grand jury stating that there is enough evidence that the defendant committed the crime to justify having a trial. <br><br>
+              <table id="customers">
+                <thead>
+                  <tr>
+                    <th>column</th>
+                    <th>nullable</th>
+                    <th>type</th>
+                    <th>descr</th>
+                    <th>fkey</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>id</td>
+                    <td>NO</td>
+                    <td>integer</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>case_number</td>
+                    <td>NO</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td>case_defendant[case_number]</td>
+                  </tr>
+                  <tr>
+                    <td>charge_type</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>statute</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>charge_description</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>disposition</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 id='cost'>cost</h5>
+              Court costs are fees that cover the expenses of serving summons, subpoenas, notices, orders, and more. They can also include court reporter fees, computer research, docketing, and journal posting. Source: <a href="https://domestic.cuyahogacounty.us/en-US/filing-fees-court-costs.aspx">Cuyahoga County Domestic Relations Court</a><br><Br>
+              <table id="customers">
+                <thead>
+                  <tr>
+                    <th>column</th>
+                    <th>nullable</th>
+                    <th>type</th>
+                    <th>descr</th>
+                    <th>fkey</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>id</td>
+                    <td>NO</td>
+                    <td>integer</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>case_number</td>
+                    <td>NO</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td>case_defendant[case_number]</td>
+                  </tr>
+                  <tr>
+                    <td>account</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>amount</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 id='defendant'>defendant</h5>
+              <table id="customers">
+                <thead>
+                  <tr>
+                    <th>column</th>
+                    <th>nullable</th>
+                    <th>type</th>
+                    <th>descr</th>
+                    <th>fkey</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>id</td>
+                    <td>NO</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>name</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>status</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>marital_status</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>birth_city</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>birth_state</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>citizenship</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>address_1</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>address_2</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>address_3</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>city_state_zip</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>race</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>height</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>sex</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>weight</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>age</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>eyes</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>date_of_birth</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>hair</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 id='docket'>docket</h5>
+              A log containing the complete history of each case in the form of brief chronological entries summarizing the court proceedings. Source: <a href = "https://www.uscourts.gov/glossary">US Courts Glossary</a><br><br>
+              <table id="customers">
+                <thead>
+                  <tr>
+                    <th>column</th>
+                    <th>nullable</th>
+                    <th>type</th>
+                    <th>descr</th>
+                    <th>fkey</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>id</td>
+                    <td>NO</td>
+                    <td>integer</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>case_number</td>
+                    <td>NO</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td>case_defendant[case_number]</td>
+                  </tr>
+                  <tr>
+                    <td>proceeding_date</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>filing_date</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>docket_party</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>docket_type</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>docket_description</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>pdf_link</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>image_s3_path</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 id='progress'>progress</h5>
+              A table to document record retrieval progress. The information for each case is retrieved by case number, which is ordered sequentially. It's possible that the case is still open as of date_scraped, in which case, its records in the CuyaCourts database are incomplete.<br><br>
+              <table id="customers">
+                <thead>
+                  <tr>
+                    <th>column</th>
+                    <th>nullable</th>
+                    <th>type</th>
+                    <th>descr</th>
+                    <th>fkey</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>id</td>
+                    <td>NO</td>
+                    <td>integer</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>case_id</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>date_scraped</td>
+                    <td>YES</td>
+                    <td>timestamp without time zone</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>details</td>
+                    <td>YES</td>
+                    <td>character varying</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
           </div>
-
         </div>
+        <h4 id='erd'>Database ERD</h4>
+        <canvas></canvas>
+
+      </div>
 
       </div>
     </section><!-- End Service Details Section -->
 
   </main><!-- End #main -->
 
-</main><!-- End #main -->
+  </main><!-- End #main -->
 
-<!-- ======= Footer ======= -->
-<footer id="footer" class="footer">
-<!-- 
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <!-- 
   <div class="container">
     <div class="row gy-4">
       <div class="col-lg-5 col-md-12 footer-info">
@@ -189,31 +902,32 @@
       &copy; Copyright <strong><span>Logis</span></strong>. All Rights Reserved
     </div>
     <div class="credits"> -->
-      <!-- All the links in the footer should remain intact. -->
-      <!-- You can delete the links only if you purchased the pro version. -->
-      <!-- Licensing information: https://bootstrapmade.com/license/ -->
-      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/logis-bootstrap-logistics-website-template/ -->
-      All images belong to site creator.
+    <!-- All the links in the footer should remain intact. -->
+    <!-- You can delete the links only if you purchased the pro version. -->
+    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/logis-bootstrap-logistics-website-template/ -->
+    All images belong to site creator.
     </div>
-  </div>
+    </div>
 
-</footer><!-- End Footer -->
-<!-- End Footer -->
+  </footer><!-- End Footer -->
+  <!-- End Footer -->
 
-<a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
-<div id="preloader"></div>
+  <div id="preloader"></div>
 
-<!-- Vendor JS Files -->
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-<script src="assets/vendor/aos/aos.js"></script>
-<script src="assets/vendor/php-email-form/validate.js"></script>
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
 
-<!-- Template Main JS File -->
-<script src="assets/js/main.js"></script>
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
 
 </body>
 
