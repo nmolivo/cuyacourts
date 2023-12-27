@@ -20,7 +20,7 @@
 /* Colors */
 :root {
   --color-default: #140f3a;
-  --color-primary: #450dff;
+  --color-primary: #593fb0;
   --color-secondary: #200b6a;
 }
 
@@ -52,7 +52,7 @@ a:hover {
 h1,
 h2,
 h3,
-h4,
+h4, 
 h5,
 h6 {
   font-family: var(--font-primary);
@@ -165,11 +165,17 @@ section {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-}
+  }
 
 .breadcrumbs .page-header:before {
   content: "";
   background-color: #140f3a;
+  background-image: radial-gradient(
+    rgba(55, 0, 255, .2), 
+    rgba(32, 11, 106, .5)
+  ),url("../img/cle-court.png");
+  background-size: cover;
+  background-position: center;
   position: absolute; 
   inset: 0;
 }
@@ -183,6 +189,10 @@ section {
 
 .breadcrumbs .page-header p {
   color: rgba(255, 255, 255, 0.8);
+}
+
+.breadcrumbs .page-header a {
+  color:rgb(207, 187, 9)
 }
 
 .breadcrumbs nav {
@@ -1698,12 +1708,6 @@ section {
   color: var(--color-secondary);
 }
 
-.service-details h4 {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--color-secondary);
-}
-
 .service-details p {
   font-size: 15px;
 }
@@ -1715,9 +1719,42 @@ section {
 }
 
 .service-details ul li {
-  padding: 5px 0;
-  display: flex;
-  align-items: center;
+  padding: 5px;
+  /* display: flex; */
+  margin-left: 10px;
+  list-style-type: disc;
+  padding-left: 2em;
+  list-style-position: inside;
+  text-align: match-parent;
+}
+
+.service-details table {
+  width: 100%;
+  table-layout: fixed;
+  padding-bottom: 12px;
+}
+
+.service-details tr td {
+  font-size: 13px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2;}
+
+.service-details th {
+  background-color: #36036c29;
+  color: rgb(48, 3, 119);
+  font-size: 14px;
+}
+
+.service-details h4 {
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-secondary);
+}
+
+.service-details h5 {
+  margin-top: 20px;
 }
 
 .service-details ul i {
@@ -1726,6 +1763,17 @@ section {
   color: var(--color-primary);
 }
 
+.service-details canvas { 
+  display:block; 
+  margin:1em auto; 
+  background:#fff; 
+  border:1px solid #ccc }
+
+.service-details body {
+  background:#eee; 
+  margin:1em; 
+  text-align:center; 
+}
 /*--------------------------------------------------------------
 # Hero Section
 --------------------------------------------------------------*/
