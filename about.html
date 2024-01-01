@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Logis Bootstrap Template - About</title>
+  <title>About CuyaCourts</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -28,14 +28,6 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: Logis
-  * Updated: Sep 18 2023 with Bootstrap v5.3.2
-  * Template URL: https://bootstrapmade.com/logis-bootstrap-logistics-website-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body>
@@ -45,9 +37,7 @@
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
       <a href="index.html" class="logo d-flex align-items-center">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1>Logis</h1>
+        <h1>CuyaCourts</h1>
       </a>
 
       <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
@@ -56,28 +46,9 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html" class="active">About</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="pricing.html">Pricing</a></li>
-          <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-            <ul>
-              <li><a href="#">Drop Down 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-                <ul>
-                  <li><a href="#">Deep Drop Down 1</a></li>
-                  <li><a href="#">Deep Drop Down 2</a></li>
-                  <li><a href="#">Deep Drop Down 3</a></li>
-                  <li><a href="#">Deep Drop Down 4</a></li>
-                  <li><a href="#">Deep Drop Down 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Drop Down 2</a></li>
-              <li><a href="#">Drop Down 3</a></li>
-              <li><a href="#">Drop Down 4</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="resources.html">Resources</a></li>
             </ul>
-          </li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a class="get-a-quote" href="get-a-quote.html">Get a Quote</a></li>
-        </ul>
       </nav><!-- .navbar -->
 
     </div>
@@ -87,13 +58,13 @@
   <main id="main">
 
     <!-- ======= Breadcrumbs ======= -->
-    <div class="breadcrumbs">
-      <div class="page-header d-flex align-items-center" style="background-image: url('assets/img/page-header.jpg');">
+    <div class="about-breadcrumbs">
+      <div class="page-header d-flex align-items-center" style="background-image: url('assets/img/court-entrance.png');">
         <div class="container position-relative">
           <div class="row d-flex justify-content-center">
             <div class="col-lg-6 text-center">
               <h2>About</h2>
-              <p>Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo odio sint voluptas consequatur ut a odio voluptatem. Sit dolorum debitis veritatis natus dolores. Quasi ratione sint. Sit quaerat ipsum dolorem.</p>
+              <p>To democratize AI we need to democratize data. For this reason, it is more important than ever to open up datasets and provide frameworks to help everyone on the planet to tackle these challenges. - Juan Lavista Ferres, VP Data Science, <a href="https://www.youtube.com/watch?v=QR2E53X-rlI&t=134s">AI for Good Lab, Microsoft</a></p>
             </div>
           </div>
         </div>
@@ -114,249 +85,28 @@
 
         <div class="row gy-4">
           <div class="col-lg-6 position-relative align-self-start order-lg-last order-first">
-            <img src="assets/img/about.jpg" class="img-fluid" alt="">
-            <a href="https://www.youtube.com/watch?v=LXb3EKWsInQ" class="glightbox play-btn"></a>
+            <br><br>
+            <a href="https://www.databricks.com/glossary/extract-transform-load"><img src="assets/img/etl-process-image.png" class="img-fluid"></a>
+            <br><Br><Br>
+            <a href="https://learn.microsoft.com/en-us/azure/architecture/data-science-process/lifecycle-data"><img src="assets/img/tdsp-lifecycle2.png" class="img-fluid" alt=""></a>
           </div>
           <div class="col-lg-6 content order-last  order-lg-first">
-            <h3>About Us</h3>
+            <h3>About</h3>
             <p>
-              Dolor iure expedita id fuga asperiores qui sunt consequatur minima. Quidem voluptas deleniti. Sit quia molestiae quia quas qui magnam itaque veritatis dolores. Corrupti totam ut eius incidunt reiciendis veritatis asperiores placeat.
+              A data scientist and social scientist walk into a bar... and, well, that's not far off from how this project started. <br><br>
+              It was becoming ever more important for me to display my skillset. Was I a data scientist? a data engineer? a machine learning engineer? The punchline here plays on the linguistic conundrum that both plagues and is exacerbated by our own creations.<br><br>
+              Whatever we may be, we're leaders in integrating tech with society and culture. This project has been featured in community meetups and upskilling events around Python, SQL, Web scraping, tech ethics, and cloud architecture. It's full potential is yet to be discovered.<br><br> 
+              The CuyaCourts project is an <a href="https://www.databricks.com/glossary/extract-transform-load">ETL pipeline</a>, and only engages with the <a href="https://learn.microsoft.com/en-us/azure/architecture/data-science-process/lifecycle-data">data acquisition and understanding</a> step of the Data Science Life Cycle. It's a scraper that picks up one case at a time from the <a href="https://cpdocket.cp.cuyahogacounty.us/">Cuyahoga County Criminal Court Case Docket</a> and stores the information in an analyzable format - a relational database, available for download.<br><Br>
+              Similar projects make electronic court records available by CLI <a href="https://github.com/biglocalnews">Stanford's Big Local News</a>,  by API <a href="https://www.courtlistener.com/help/api/">CourtListener</a>, <a href="https://case.law/tools/">Harvard Law School's Caselaw Access Project</a> or paid subscription <a href="https://pacer.uscourts.gov/">The Public Access to Court Electronic Records (PACER)</a>.<br><br>
+              So if others have already done this, did I just duplicate their efforts? (No.) Is this really the most efficient way? (today, yes.) I address these questions, and more in depth in the FAQs below. Please let me know if you're curious about anything else, or have any additional information to share, by using <a href="https://forms.gle/y7AoCQptfvKuxBVm9">this form</a>. 
+              <br><br>
+              One thing I am not - is a front-end engineer, however, I'm closer now than I was yesterday because of this project. Thank you for your patience with this website. 
             </p>
-            <ul>
-              <li data-aos="fade-up" data-aos-delay="100">
-                <i class="bi bi-diagram-3"></i>
-                <div>
-                  <h5>Ullamco laboris nisi ut aliquip consequat</h5>
-                  <p>Magni facilis facilis repellendus cum excepturi quaerat praesentium libre trade</p>
-                </div>
-              </li>
-              <li data-aos="fade-up" data-aos-delay="200">
-                <i class="bi bi-fullscreen-exit"></i>
-                <div>
-                  <h5>Magnam soluta odio exercitationem reprehenderi</h5>
-                  <p>Quo totam dolorum at pariatur aut distinctio dolorum laudantium illo direna pasata redi</p>
-                </div>
-              </li>
-              <li data-aos="fade-up" data-aos-delay="300">
-                <i class="bi bi-broadcast"></i>
-                <div>
-                  <h5>Voluptatem et qui exercitationem</h5>
-                  <p>Et velit et eos maiores est tempora et quos dolorem autem tempora incidunt maxime veniam</p>
-                </div>
-              </li>
-            </ul>
           </div>
         </div>
 
       </div>
     </section><!-- End About Us Section -->
-
-    <!-- ======= Stats Counter Section ======= -->
-    <section id="stats-counter" class="stats-counter pt-0">
-      <div class="container" data-aos="fade-up">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-3 col-md-6">
-            <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Clients</p>
-            </div>
-          </div><!-- End Stats Item -->
-
-          <div class="col-lg-3 col-md-6">
-            <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Projects</p>
-            </div>
-          </div><!-- End Stats Item -->
-
-          <div class="col-lg-3 col-md-6">
-            <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="1453" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Hours Of Support</p>
-            </div>
-          </div><!-- End Stats Item -->
-
-          <div class="col-lg-3 col-md-6">
-            <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="32" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Workers</p>
-            </div>
-          </div><!-- End Stats Item -->
-
-        </div>
-
-      </div>
-    </section><!-- End Stats Counter Section -->
-
-    <!-- ======= Our Team Section ======= -->
-    <section id="team" class="team pt-0">
-      <div class="container" data-aos="fade-up">
-
-        <div class="section-header">
-          <span>Our Team</span>
-          <h2>Our Team</h2>
-
-        </div>
-
-        <div class="row" data-aos="fade-up" data-aos-delay="100">
-
-          <div class="col-lg-4 col-md-6 d-flex">
-            <div class="member">
-              <img src="assets/img/team/team-1.jpg" class="img-fluid" alt="">
-              <div class="member-content">
-                <h4>Walter White</h4>
-                <span>Web Development</span>
-                <p>
-                  Magni qui quod omnis unde et eos fuga et exercitationem. Odio veritatis perspiciatis quaerat qui aut aut aut
-                </p>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-4 col-md-6 d-flex">
-            <div class="member">
-              <img src="assets/img/team/team-2.jpg" class="img-fluid" alt="">
-              <div class="member-content">
-                <h4>Sarah Jhinson</h4>
-                <span>Marketing</span>
-                <p>
-                  Repellat fugiat adipisci nemo illum nesciunt voluptas repellendus. In architecto rerum rerum temporibus
-                </p>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-4 col-md-6 d-flex">
-            <div class="member">
-              <img src="assets/img/team/team-3.jpg" class="img-fluid" alt="">
-              <div class="member-content">
-                <h4>William Anderson</h4>
-                <span>Content</span>
-                <p>
-                  Voluptas necessitatibus occaecati quia. Earum totam consequuntur qui porro et laborum toro des clara
-                </p>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-        </div>
-
-      </div>
-    </section><!-- End Our Team Section -->
-
-    <!-- ======= Testimonials Section ======= -->
-    <section id="testimonials" class="testimonials">
-      <div class="container">
-
-        <div class="slides-1 swiper" data-aos="fade-up">
-          <div class="swiper-wrapper">
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
-                <h3>Saul Goodman</h3>
-                <h4>Ceo &amp; Founder</h4>
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
-                <h3>Sara Wilsson</h3>
-                <h4>Designer</h4>
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
-                <h3>Jena Karlis</h3>
-                <h4>Store Owner</h4>
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
-                <h3>Matt Brandon</h3>
-                <h4>Freelancer</h4>
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
-                <h3>John Larson</h3>
-                <h4>Entrepreneur</h4>
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-              </div>
-            </div><!-- End testimonial item -->
-
-          </div>
-          <div class="swiper-pagination"></div>
-        </div>
-
-      </div>
-    </section><!-- End Testimonials Section -->
 
     <!-- ======= Frequently Asked Questions Section ======= -->
     <section id="faq" class="faq">
@@ -377,12 +127,13 @@
                 <h3 class="accordion-header">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-1">
                     <i class="bi bi-question-circle question-icon"></i>
-                    Non consectetur a erat nam at lectus urna duis?
+                    Besides CuyaCourts, which other ways can an individual access the same data?
                   </button>
                 </h3>
                 <div id="faq-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist">
                   <div class="accordion-body">
-                    Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.
+                    The Criminal Court case docket is made available by the <a href="https://cpdocket.cp.cuyahogacounty.us/Search.aspx">Cuyahoga County Clerk of Courts</a> website, along with Civil/Domestic and Court of Appeals cases, searchable by at least case number or name. A bulk downloadable version was requested via a Freedom of Information Act (FOIA) request in 2022 and was met with no response. Programmatic access to this data was also not available, when requested through the website contact email. Requesting access to this data from other public civic data projects, such as the Marshall Project, presenters at Cleveland's Data Days 2022 - was met with non-response as well. At the time of its creation, browsing other sources for bulk downloadable or programmatic access to municipal and county courts yeilded no coverage for Cuyahoga County Courts. Furthermore, open source collections of county-level court scrapers such as Stanford's <a href="https://github.com/biglocalnews">Big Local News</a> did not have a scraper for Cuyahoga County. Paid subscription tools were not investigated as thoroughly.<br><br>
+                    At the <a href="https://cpdocket.cp.cuyahogacounty.us/Search.aspx">Cuyahoga County Clerk of Courts</a> website, an individual can obtain all the same information about each case at a rate of ~500 cases per day before their IP address is blocked. This consideration shaped the design of this project.
                   </div>
                 </div>
               </div><!-- # Faq item-->
@@ -391,12 +142,15 @@
                 <h3 class="accordion-header">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-2">
                     <i class="bi bi-question-circle question-icon"></i>
-                    Feugiat scelerisque varius morbi enim nunc faucibus a pellentesque?
+                    What tools were used to create the CuyaCourts ETL pipeline?
                   </button>
                 </h3>
                 <div id="faq-content-2" class="accordion-collapse collapse" data-bs-parent="#faqlist">
                   <div class="accordion-body">
-                    Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.
+                    <b>Storage:</b> AWS Relational Database Service (Postgres), Github, AWS Elastic Container Registry<br>
+                    <b>Python Libraries:</b> Selenium, boto3, SQLAlchemy ORM<br>
+                    <b>Compute:</b> AWS Lambda<br>
+                    <b>Deployment:</b> Github actions, Docker, pgadmin4
                   </div>
                 </div>
               </div><!-- # Faq item-->
@@ -405,12 +159,13 @@
                 <h3 class="accordion-header">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-3">
                     <i class="bi bi-question-circle question-icon"></i>
-                    Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi?
+                    How current is the database?
                   </button>
                 </h3>
                 <div id="faq-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist">
                   <div class="accordion-body">
-                    Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis
+                    Each case was retrieved by case number, which are ordered chronologically. You can see the exact details per case by querying the progress table, which will tell you the exact time the records for each case were retrieved and committed to the CuyaCourts database. In the case a record is retrieved twice, its existing presence in the CuyaCourts database is deleted and new records are written - so there are no duplicates. Should the case still be open at the time it was retrieved, the records for that case in CuyaCourts are incomplete.<br><br>
+                    The information contained in the CuyaCourts database is provided “as-is” without any warranties or guarantees of accuracy. Please do not rely on this data set to solve personal legal problems.
                   </div>
                 </div>
               </div><!-- # Faq item-->
@@ -419,13 +174,13 @@
                 <h3 class="accordion-header">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-4">
                     <i class="bi bi-question-circle question-icon"></i>
-                    Ac odio tempor orci dapibus. Aliquam eleifend mi in nulla?
+                    Are there plans for updates to the CuyaCourts database?
                   </button>
                 </h3>
                 <div id="faq-content-4" class="accordion-collapse collapse" data-bs-parent="#faqlist">
                   <div class="accordion-body">
                     <i class="bi bi-question-circle question-icon"></i>
-                    Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.
+                    At this time, further technical development will hinge upon community interests. There is no known urgency or budget to guide database versioning development at this time.
                   </div>
                 </div>
               </div><!-- # Faq item-->
@@ -434,12 +189,14 @@
                 <h3 class="accordion-header">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-5">
                     <i class="bi bi-question-circle question-icon"></i>
-                    Tempus quam pellentesque nec nam aliquam sem et tortor consequat?
+                    Is it ethical to make this database public?
                   </button>
                 </h3>
                 <div id="faq-content-5" class="accordion-collapse collapse" data-bs-parent="#faqlist">
                   <div class="accordion-body">
-                    Molestie a iaculis at erat pellentesque adipiscing commodo. Dignissim suspendisse in est ante in. Nunc vel risus commodo viverra maecenas accumsan. Sit amet nisl suscipit adipiscing bibendum est. Purus gravida quis blandit turpis cursus in
+                    According to <a href="https://codes.ohio.gov/ohio-revised-code/section-149.43">Ohio Revised Code 149.43</a> all court records and dockets are public information. That being said, any patterns observed in this data reflect known biases and any analysis must be performed mindfully so as not to misrepresent or harm individuals engaged with the criminal litigation process.<br><br>
+                    Another angle for ethics may be: did the process of obtaining these records harm the host website? It did not. Each record was scraped one by one and at a gentle pace so as not to overwhelm the host server - and only after requesting access to the data via FOIA request and email inquiry yielded non-response.<br><br>
+                    The information contained in the CuyaCourts database is provided “as-is” without any warranties or guarantees of accuracy. Please do not rely on this data set to solve personal legal problems.
                   </div>
                 </div>
               </div><!-- # Faq item-->
@@ -456,72 +213,7 @@
 
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
-
-    <div class="container">
-      <div class="row gy-4">
-        <div class="col-lg-5 col-md-12 footer-info">
-          <a href="index.html" class="logo d-flex align-items-center">
-            <span>Logis</span>
-          </a>
-          <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
-          <div class="social-links d-flex mt-4">
-            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-          </div>
-        </div>
-
-        <div class="col-lg-2 col-6 footer-links">
-          <h4>Useful Links</h4>
-          <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About us</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Terms of service</a></li>
-            <li><a href="#">Privacy policy</a></li>
-          </ul>
-        </div>
-
-        <div class="col-lg-2 col-6 footer-links">
-          <h4>Our Services</h4>
-          <ul>
-            <li><a href="#">Web Design</a></li>
-            <li><a href="#">Web Development</a></li>
-            <li><a href="#">Product Management</a></li>
-            <li><a href="#">Marketing</a></li>
-            <li><a href="#">Graphic Design</a></li>
-          </ul>
-        </div>
-
-        <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
-          <h4>Contact Us</h4>
-          <p>
-            A108 Adam Street <br>
-            New York, NY 535022<br>
-            United States <br><br>
-            <strong>Phone:</strong> +1 5589 55488 55<br>
-            <strong>Email:</strong> info@example.com<br>
-          </p>
-
-        </div>
-
-      </div>
-    </div>
-
-    <div class="container mt-4">
-      <div class="copyright">
-        &copy; Copyright <strong><span>Logis</span></strong>. All Rights Reserved
-      </div>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/logis-bootstrap-logistics-website-template/ -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>
-    </div>
-
+    All images belong to site creator, unless linked to elsewhere.
   </footer><!-- End Footer -->
   <!-- End Footer -->
 
