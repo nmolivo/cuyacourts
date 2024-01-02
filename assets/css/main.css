@@ -20,7 +20,7 @@
 /* Colors */
 :root {
   --color-default: #140f3a;
-  --color-primary: #593fb0;
+  --color-primary: #3510b0;
   --color-secondary: #200b6a;
 }
 
@@ -157,7 +157,7 @@ section {
 }
 
 /*--------------------------------------------------------------
-# Breadcrumbs
+# Database Documentation
 --------------------------------------------------------------*/
 .breadcrumbs .page-header {
   padding: 140px 0 80px 0;
@@ -225,6 +225,80 @@ section {
 }
 
 .breadcrumbs nav ol li+li::before {
+  display: inline-block;
+  padding-right: 10px;
+  color: #5242cc;
+  content: "/";
+}
+/*--------------------------------------------------------------
+# About
+--------------------------------------------------------------*/
+.about-breadcrumbs .page-header {
+  padding: 140px 0 80px 0;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  }
+
+.about-breadcrumbs .page-header:before {
+  content: "";
+  background-color: #140f3a;
+  background-image: radial-gradient(
+    rgba(55, 0, 255, .2), 
+    rgba(32, 11, 106, .5)
+  ),url("../img/court-entrance.png");
+  background-size: cover;
+  background-position: center;
+  position: absolute; 
+  inset: 0;
+}
+
+.about-breadcrumbs .page-header h2 {
+  font-size: 56px;
+  font-weight: 500;
+  color: #fff;
+  font-family: var(--font-secondary);
+}
+
+.about-breadcrumbs .page-header p {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.about-breadcrumbs .page-header a {
+  color:rgb(207, 187, 9)
+}
+
+.about-breadcrumbs nav {
+  background-color: #f3f6fc;
+  padding: 20px 0;
+}
+
+.about-breadcrumbs nav ol {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-secondary);
+}
+
+.about-breadcrumbs nav ol a {
+  color: var(--color-primary);
+  transition: 0.3s;
+}
+
+.breadcrumbs nav ol a:hover {
+  text-decoration: underline;
+}
+
+.about-breadcrumbs nav ol li+li {
+  padding-left: 10px;
+}
+
+.about-breadcrumbs nav ol li+li::before {
   display: inline-block;
   padding-right: 10px;
   color: #5242cc;
@@ -1657,7 +1731,7 @@ section {
 }
 
 .contact .php-email-form button[type=submit]:hover {
-  background: rgba(13, 66, 255, 0.8);
+  background: rgba(54, 10, 155, 0.8);
 }
 
 @keyframes animate-loading {
@@ -1774,6 +1848,29 @@ tr:nth-child(even){background-color: #f2f2f2;}
   margin:1em; 
   text-align:center; 
 }
+
+.service-details .cta-btn {
+  font-family: var(--font-primary);
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 1px;
+  display: inline-block;
+  padding: 12px 40px;
+  border-radius: 5px;
+  transition: 0.5s;
+  margin: 10px;
+  border: 2px solid rgb(48, 3, 119);
+  color: rgb(48, 3, 119);
+}
+
+.service-details .cta-btn:hover {
+  background: #140f3a;
+  color: #fff;
+  border: 2px solid var(--color-primary);
+}
+
+
+
 /*--------------------------------------------------------------
 # Hero Section
 --------------------------------------------------------------*/
@@ -1950,7 +2047,7 @@ tr:nth-child(even){background-color: #f2f2f2;}
 
 .footer .footer-links ul i {
   padding-right: 2px;
-  color: rgba(74, 13, 255, 0.8);
+  color:  #140f3a;
   font-size: 12px;
   line-height: 0;
 }

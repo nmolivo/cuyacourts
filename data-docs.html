@@ -96,9 +96,13 @@
               <a href="#tables" class="active">Tables</a>
               <a href="#erd">Entity Relationship Diagram</a>
             </div>
-
             <h4>About the data</h4>
             <p>
+
+              <a class="cta-btn" href="https://cuya-courts-public.s3.amazonaws.com/v1.0_dump.sql.gz">Download</a><br>
+              Compressed: 220.2 MB<br>
+              DB Size: 1166.19 MB<br><br>
+              The information is provided “as-is” without any warranties or guarantees of accuracy. Please do not rely on this data set to solve personal legal problems.<br><br>
               Current version: 1.0<br><br>
               Database documentation generated with Foliant.
 
@@ -327,6 +331,7 @@
                 </tbody>
               </table>
               <h5 id='case_defendant'>case_defendant</h5>
+              Cases and defendants share a many to many relationship. Each case_defendant is a unique combination of defendant and case.<br><br>
               <table id="customers">
                 <thead>
                   <tr>
@@ -561,6 +566,7 @@
                 </tbody>
               </table>
               <h5 id='defendant'>defendant</h5>
+              Defendant, in criminal cases, is the person accused of the crime. In civil cases, the defendant is the person or entity that is being sued by the plaintiff. Source: <a href="https://www.law.cornell.edu/wex/defendant">Cornell Law School Legal Information Institute</a>.
               <table id="customers">
                 <thead>
                   <tr>
