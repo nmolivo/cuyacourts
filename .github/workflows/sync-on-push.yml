@@ -17,7 +17,7 @@ jobs:
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::952753501735:role/service-role/rds-proxy-role-1692829147369
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/service-role/${{ secrets.ROLE_NAME }}
           aws-region: us-east-1
 
       - name: Get DB secrets
@@ -25,6 +25,9 @@ jobs:
         with:
           secret-ids: ${{ secrets.SECRET_NAME }}
           parse-json-as-env-vars: true
+
+      - name: Create data directory
+        run: mkdir -p assets/data
 
       - name: Query DB and save JSON
         run: |
