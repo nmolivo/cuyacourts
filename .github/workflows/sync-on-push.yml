@@ -17,7 +17,7 @@ jobs:
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::952753501735:role/rds-proxy-role-1692829147369
+          role-to-assume: arn:aws:iam::952753501735:role/service-role/rds-proxy-role-1692829147369
           aws-region: us-east-1
 
       - name: Get DB secrets
