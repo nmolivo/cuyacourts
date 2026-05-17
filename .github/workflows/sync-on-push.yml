@@ -1,0 +1,57 @@
+name: Refresh Data
+on:
+  push:
+    branches-ignore:
+      - "dependabot/**"
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::YOUR_ACCOUNT_ID:role/YOUR_ROLE_NAME
+          aws-region: us-east-1
+
+      - name: Get DB secrets
+        uses: aws-actions/aws-secretsmanager-get-secrets@v2
+        with:
+          secret-ids: prod/cuyacourt_app
+          parse-json-as-env-vars: true
+
+      - name: Query DB and save JSON
+        run: |
+          PGPASSWORD=$PASSWORD psql \
+            -h $HOST \
+            -U $USERNAME \
+            -d $DATABASE \
+            -p $PORT \
+            -c "COPY (
+                SELECT start_year, judge_name, count(case_number)
+                FROM (
+                    SELECT DISTINCT
+                    cd.case_number, cd.judge_name, cd.status,
+                    EXTRACT(YEAR FROM MIN(TO_TIMESTAMP(d.filing_date::text, 'MM/DD/YYYY')::date) OVER (PARTITION BY cd.case_number)) AS start_year
+                    FROM case_defendant cd
+                    JOIN docket d ON cd.case_number = d.case_number
+                ) sub
+                WHERE start_year > 2014
+                    AND status LIKE '%CASE CLOSED%'
+                GROUP BY judge_name, start_year
+                ORDER BY judge_name, start_year DESC
+                ) TO STDOUT WITH CSV HEADER" > assets/data/annual_case_load_by_judge.csv
+
+      - name: Commit data
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add data/annual_caseload_by_judge.json
+          git diff --staged --quiet || git commit -m "chore: refresh chart data"
+          git push
