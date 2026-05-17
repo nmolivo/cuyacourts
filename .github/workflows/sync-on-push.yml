@@ -29,13 +29,15 @@ jobs:
       - name: Create data directory
         run: mkdir -p assets/data
 
-      - name: Query DB and save JSON
+      - name: Query DB and save CSV
+        env:
+          PGPASSWORD: ${{ env.PASSWORD }}
+          PGHOST: ${{ env.HOST }}
+          PGUSER: ${{ env.USERNAME }}
+          PGDATABASE: ${{ env.DATABASE }}
+          PGPORT: ${{ env.PORT }}
         run: |
-          PGPASSWORD=$PASSWORD psql \
-            -h $HOST \
-            -U $USERNAME \
-            -d $DATABASE \
-            -p $PORT \
+          psql \
             -c "COPY (
                 SELECT start_year, judge_name, count(case_number)
                 FROM (
