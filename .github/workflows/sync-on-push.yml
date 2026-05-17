@@ -25,6 +25,7 @@ jobs:
         with:
           secret-ids: ${{ secrets.SECRET_NAME }}
           parse-json-as-env-vars: true
+          name-transformation: none
 
       - name: Create data directory
         run: mkdir -p assets/data
