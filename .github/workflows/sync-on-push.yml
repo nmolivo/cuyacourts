@@ -37,6 +37,7 @@ jobs:
         run: |
           echo "::add-mask::${{ env.PGHOST }}"
           echo "::add-mask::${{ env.PGPORT }}"
+          echo "${{ env.PGUSER }}"
           echo "::add-mask::${{ env.PGPASSWORD }}"
           echo "::add-mask::${{ env.PGDATABASE }}"
           echo "::add-mask::${{ secrets.AWS_ACCOUNT_ID }}"
@@ -48,7 +49,7 @@ jobs:
           aws ssm start-session \
             --target ${{ secrets.EC2_INSTANCE_ID }} \
             --document-name AWS-StartPortForwardingSessionToRemoteHost \
-            --parameters "{\"host\":[\"${{ env.PGHOST }}\"],\"portNumber\":[\"${{ env.PORT }}\"],\"localPortNumber\":[\"5432\"]}" &
+            --parameters "{\"host\":[\"${{ env.PGHOST }}\"],\"portNumber\":[\"${{ env.PGPORT }}\"],\"localPortNumber\":[\"5432\"]}" &
           sleep 5
 
       - name: Create data directory
