@@ -29,10 +29,7 @@ jobs:
 
       - name: Debug secrets
         run: |
-          echo "PORT: ${{ env.PORT }}"
-          echo "PORT: $HOST"
-          echo "USERNAME: ${{ env.USERNAME }}"
-          echo "DATABASE: ${{ env.DATABASE }}"
+          echo "HOST: $(echo $PROD_CUYACOURT_APP | jq -r '.HOST')"
 
       - name: Create data directory
         run: mkdir -p assets/data
