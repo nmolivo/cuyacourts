@@ -27,6 +27,13 @@ jobs:
           parse-json-as-env-vars: true
           name-transformation: none
 
+      - name: Debug secrets
+        run: |
+          echo "PORT: ${{ env.PORT }}"
+          echo "PORT: $HOST"
+          echo "USERNAME: ${{ env.USERNAME }}"
+          echo "DATABASE: ${{ env.DATABASE }}"
+
       - name: Create data directory
         run: mkdir -p assets/data
 
