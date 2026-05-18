@@ -27,21 +27,17 @@ jobs:
           parse-json-as-env-vars: true
           name-transformation: none
 
-      - name: Debug secrets
-        run: |
-          echo ${{env.prod_cuyacourt_app}}
-
       - name: Create data directory
         run: mkdir -p assets/data
 
       - name: Query DB and save CSV
-        env:
-          PGPASSWORD: ${{ env.PASSWORD }}
-          PGHOST: ${{ env.HOST }}
-          PGUSER: ${{ env.USERNAME }}
-          PGDATABASE: ${{ env.DATABASE }}
-          PGPORT: ${{ env.PORT }}
         run: |
+          SECRET=${{ env.prod_cuyacourt_app }}
+          export PGHOST=$(echo $SECRET | jq -r '.HOST')
+          export PGPORT=$(echo $SECRET | jq -r '.PORT')
+          export PGUSER=$(echo $SECRET | jq -r '.USERNAME')
+          export PGPASSWORD=$(echo $SECRET | jq -r '.PASSWORD')
+          export PGDATABASE=$(echo $SECRET | jq -r '.DATABASE')
           psql \
             -c "COPY (
                 SELECT start_year, judge_name, count(case_number)
