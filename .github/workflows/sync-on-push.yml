@@ -17,14 +17,14 @@ jobs:
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/service-role/${{ secrets.ROLE_NAME }}
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.ROLE_NAME }}
           aws-region: us-east-1
 
       - name: Start EC2
         run: |
           aws ec2 start-instances --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
           aws ec2 wait instance-running --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
-          sleep 15
+          sleep 10
 
       - name: Get DB secrets
         uses: aws-actions/aws-secretsmanager-get-secrets@v2
