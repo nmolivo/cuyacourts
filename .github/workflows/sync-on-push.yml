@@ -29,7 +29,7 @@ jobs:
 
       - name: Export DB secrets as environment variables
         run: |
-          echo "$prod_cuyacourt_app" | jq -r 'to_entries | .[] | "export \(.key | ascii_upcase)=\(.value)"' >> $GITHUB_ENV
+          echo "::add-mask::$prod_cuyacourt_app" | jq -r 'to_entries | .[] | "export \(.key | ascii_upcase)=\(.value)"' >> $GITHUB_ENV
 
       - name: Create data directory
         run: mkdir -p assets/data
