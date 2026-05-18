@@ -27,19 +27,20 @@ jobs:
           parse-json-as-env-vars: true
           name-transformation: none
 
+      - name: Export DB secrets as environment variables
+        run: |
+          echo "$prod_cuyacourt_app" | jq -r 'to_entries | .[] | "export \(.key | ascii_upcase)=\(.value)"' >> $GITHUB_ENV
+
       - name: Create data directory
         run: mkdir -p assets/data
 
       - name: Query DB and save CSV
         run: |
-          SECRET=${{ env.prod_cuyacourt_app }}
-          echo '$SECRET' | jq -r '.USERNAME'
-          export PGHOST=$(echo $SECRET | jq -r '.HOST')
-          export PGPORT=$(echo $SECRET | jq -r '.PORT')
-          export PGUSER=$(echo $SECRET | jq -r '.USERNAME')
-          export PGPASSWORD=$(echo $SECRET | jq -r '.PASSWORD')
-          export PGDATABASE=$(echo $SECRET | jq -r '.DATABASE')
           psql \
+            -h $PGHOST \
+            -p $PGPORT \
+            -U $PGUSER \
+            -d $PGDATABASE \
             -c "COPY (
                 SELECT start_year, judge_name, count(case_number)
                 FROM (
