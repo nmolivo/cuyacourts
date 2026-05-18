@@ -20,42 +20,73 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/service-role/${{ secrets.ROLE_NAME }}
           aws-region: us-east-1
 
+      - name: Start EC2
+        run: |
+          aws ec2 start-instances --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
+          aws ec2 wait instance-running --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
+          sleep 15
+
       - name: Get DB secrets
         uses: aws-actions/aws-secretsmanager-get-secrets@v2
         with:
-          secret-ids: ${{ secrets.SECRET_NAME }}
-          parse-json-as-env-vars: true
-          name-transformation: none
+          secret-ids: |
+            ,${{ secrets.SECRET_NAME }}
+          parse-json-secrets: true
 
-      - name: Export DB secrets as environment variables
+      - name: Mask secrets
         run: |
-          echo "::add-mask::$prod_cuyacourt_app" | jq -r 'to_entries | .[] | "export \(.key | ascii_upcase)=\(.value)"' >> $GITHUB_ENV
+          echo "::add-mask::${{ env.PGHOST }}"
+          echo "::add-mask::${{ env.PGPORT }}"
+          echo "::add-mask::${{ env.PGUSER }}"
+          echo "::add-mask::${{ env.PGPASSWORD }}"
+          echo "::add-mask::${{ env.PGDATABASE }}"
+          echo "::add-mask::${{ secrets.AWS_ACCOUNT_ID }}"
+          echo "::add-mask::${{ secrets.ROLE_NAME }}"
+          echo "::add-mask::${{ secrets.EC2_INSTANCE_ID }}"
+
+      - name: Start SSM port forward
+        run: |
+          aws ssm start-session \
+            --target ${{ secrets.EC2_INSTANCE_ID }} \
+            --document-name AWS-StartPortForwardingSessionToRemoteHost \
+            --parameters "{\"host\":[\"${{ env.PGHOST }}\"],\"portNumber\":[\"${{ env.PORT }}\"],\"localPortNumber\":[\"5432\"]}" &
+          sleep 5
 
       - name: Create data directory
         run: mkdir -p assets/data
 
       - name: Query DB and save CSV
+        env:
+          PGHOST: 127.0.0.1
+          PGPORT: 5432
+          PGUSER: ${{ env.PGUSER }}
+          PGPASSWORD: ${{ env.PGPASSWORD }}
+          PGDATABASE: ${{ env.PGDATABASE }}
         run: |
-          psql \
-            -c "COPY (
-                SELECT start_year, judge_name, count(case_number)
-                FROM (
-                    SELECT DISTINCT
-                    cd.case_number, cd.judge_name, cd.status,
-                    EXTRACT(YEAR FROM MIN(TO_TIMESTAMP(d.filing_date::text, 'MM/DD/YYYY')::date) OVER (PARTITION BY cd.case_number)) AS start_year
-                    FROM case_defendant cd
-                    JOIN docket d ON cd.case_number = d.case_number
-                ) sub
-                WHERE start_year > 2014
-                    AND status LIKE '%CASE CLOSED%'
-                GROUP BY judge_name, start_year
-                ORDER BY judge_name, start_year DESC
-                ) TO STDOUT WITH CSV HEADER" > assets/data/annual_case_load_by_judge.csv
+          psql -c "COPY (
+              SELECT start_year, judge_name, count(case_number)
+              FROM (
+                  SELECT DISTINCT
+                  cd.case_number, cd.judge_name, cd.status,
+                  EXTRACT(YEAR FROM MIN(TO_TIMESTAMP(d.filing_date::text, 'MM/DD/YYYY')::date) OVER (PARTITION BY cd.case_number)) AS start_year
+                  FROM case_defendant cd
+                  JOIN docket d ON cd.case_number = d.case_number
+              ) sub
+              WHERE start_year > 2014
+                  AND status LIKE '%CASE CLOSED%'
+              GROUP BY judge_name, start_year
+              ORDER BY judge_name, start_year DESC
+              ) TO STDOUT WITH CSV HEADER" > assets/data/annual_case_load_by_judge.csv
 
       - name: Commit data
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add data/annual_caseload_by_judge.json
+          git add assets/data/annual_case_load_by_judge.csv
           git diff --staged --quiet || git commit -m "chore: refresh chart data"
           git push
+
+      - name: Stop EC2
+        if: always()
+        run: |
+          aws ec2 stop-instances --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
