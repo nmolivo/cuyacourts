@@ -33,7 +33,7 @@ jobs:
       - name: Query DB and save CSV
         run: |
           SECRET=${{ env.prod_cuyacourt_app }}
-          echo $SECRET | jq -r '.USERNAME'
+          echo '$SECRET' | jq -r '.USERNAME'
           export PGHOST=$(echo $SECRET | jq -r '.HOST')
           export PGPORT=$(echo $SECRET | jq -r '.PORT')
           export PGUSER=$(echo $SECRET | jq -r '.USERNAME')
