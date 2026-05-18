@@ -37,10 +37,6 @@ jobs:
       - name: Query DB and save CSV
         run: |
           psql \
-            -h $PGHOST \
-            -p $PGPORT \
-            -U $PGUSER \
-            -d $PGDATABASE \
             -c "COPY (
                 SELECT start_year, judge_name, count(case_number)
                 FROM (
