@@ -37,7 +37,6 @@ jobs:
         run: |
           echo "::add-mask::${{ env.PGHOST }}"
           echo "::add-mask::${{ env.PGPORT }}"
-          echo "::add-mask::${{ env.PGUSER }}"
           echo "::add-mask::${{ env.PGPASSWORD }}"
           echo "::add-mask::${{ env.PGDATABASE }}"
           echo "::add-mask::${{ secrets.AWS_ACCOUNT_ID }}"
