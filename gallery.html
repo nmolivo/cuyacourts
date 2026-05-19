@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Gallery</title>
+  <meta content="Cuyahoga County Criminal Court Case Docket for bulk download." name="description">
+  <meta content="tech, Cleveland, sql, database, data, analysis, court" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+  <!-- CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+      <a href="index.html" class="logo d-flex align-items-center">
+        <h1>CuyaCourts</h1>
+      </a>
+
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="about.html">FAQs</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="data-docs.html">Data Documentation</a></li>
+        </ul>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Breadcrumbs ======= -->
+  <div class="breadcrumbs">
+    <div class="page-header d-flex align-items-center" style="background-image: url('assets/img/3figs4bench.png'); background-size: contain; background-position: center; position: relative;">
+      <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(72, 61, 139, 0.5);"></div>
+      <div class="container position-relative text-center" style="position: relative; z-index: 1;">
+        <h1 data-aos="fade-up" style="color: white;">Gallery</h1>
+        <p data-aos="fade-up" data-aos-delay="100" style="color: white;">A collection of data visualizations to help understand the data</p>
+      </div>
+    </div>
+    <nav>
+      <div class="container">
+        <ol>
+          <li><a href="index.html">Home</a></li>
+          <li>Gallery</li>
+        </ol>
+      </div>
+    </nav>
+  </div><!-- End Breadcrumbs -->
+
+  <main id="main">
+    <section id="service-details" class="service-details">
+      <div class="container" data-aos="fade-up">
+        <div class="row gy-4">
+
+          <!-- Left Navigation Panel -->
+          <div class="col-lg-4">
+            <div class="services-list">
+              <a href="#caseload" class="active">Caseload Per Annum</a>
+            </div>
+            <h4>About the Data</h4>
+            <p>
+              The information is provided “as-is” without any warranties or guarantees of accuracy. Please do not rely on this data set to solve personal legal problems.<br><br>
+              Current version: 1.0<br><br>
+            </p>
+          </div>
+
+          <!-- Main Content -->
+          <div class="col-lg-8">
+            <h4 id="caseload">Caseload Per Annum</h4>
+            <div id="annual-caseload-chart" style="width: 100%; height: 500px;"></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <p style="text-align: left;">All images belong to site creator.</p>
+        </div>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- D3.js Library -->
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+
+  <!-- Caseload Chart Script -->
+  <script src="assets/js/annual_caseload_by_justice.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
