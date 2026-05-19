@@ -19,6 +19,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
+   * Codeblocks
+   */
+  document.querySelectorAll('.code-block').forEach(block => {
+    const lines = block.textContent.split('\n');
+    block.innerHTML = lines
+      .map((line, i) => `<span><span class="line-number">${i + 1}</span>${line}</span>`)
+      .join('');
+  });
+
+  /**
    * Sticky header on scroll
    */
   const selectHeader = document.querySelector('#header');

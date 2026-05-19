@@ -5,7 +5,9 @@ const margin = { top: 40, right: 30, bottom: 50, left: 60 },
 
 const wrapper = d3.select("#annual-caseload-chart")
     .style("display", "block")
-    .style("width", (colWidth + chartWidth + margin.left + margin.right) + "px");
+    .style("width", (colWidth + chartWidth + margin.left + margin.right) + "px")
+    .style("overflow", "visible")
+    .style("margin-bottom", "60px");
 
 const topRow = wrapper.append("div")
     .style("display", "flex")
@@ -155,18 +157,21 @@ d3.csv("assets/data/annual_case_load_by_judge.csv").then(function (data) {
     });
 
     // tooltip elements
-    const tooltip = d3.select("#annual-caseload-chart")
+    const tooltip = d3.select("body")
         .append("div")
-        .style("position", "absolute")
+        .attr("class", "chart-tooltip")
+        .style("position", "fixed")
         .style("background", "white")
         .style("border", "0.5px solid #ccc")
         .style("border-radius", "6px")
         .style("padding", "6px 10px")
         .style("font-size", "11px")
-        .style("color", "#444")
+        .style("color", "var(--color-default)")
+        .style("font-family", "var(--font-primary)")
         .style("pointer-events", "none")
         .style("opacity", 0)
-        .style("box-shadow", "0 2px 6px rgba(0,0,0,0.1)");
+        .style("box-shadow", "0 2px 6px rgba(0,0,0,0.1)")
+        .style("z-index", "9999");
 
     const hoverCircle = svg.append("circle")
         .attr("r", 5)
@@ -183,9 +188,13 @@ d3.csv("assets/data/annual_case_load_by_judge.csv").then(function (data) {
         .attr("fill", "none")
         .style("pointer-events", "all");
 
-    overlay.on("mousemove", function (event) {
-        const [mx] = d3.pointer(event);
-        const year = Math.round(x.invert(mx));
+    // active scales — updated on zoom
+    let activeX = x;
+    let activeY = y;
+
+    function updateTooltip(event) {
+        const [mx, my] = d3.pointer(event);
+        const year = Math.round(activeX.invert(mx));
 
         if (year < allYears[0] || year > allYears[allYears.length - 1]) {
             hoverCircle.style("opacity", 0);
@@ -193,15 +202,13 @@ d3.csv("assets/data/annual_case_load_by_judge.csv").then(function (data) {
             return;
         }
 
-        // find the judge whose line is closest to mouse y
-        const [, my] = d3.pointer(event);
         let closestJudge = null;
         let closestDist = Infinity;
 
         judgesSorted.forEach(({ judge, years }) => {
             const val = years[year];
             if (val == null) return;
-            const dist = Math.abs(y(val) - my);
+            const dist = Math.abs(activeY(val) - my);
             if (dist < closestDist) {
                 closestDist = dist;
                 closestJudge = { judge, val };
@@ -217,18 +224,19 @@ d3.csv("assets/data/annual_case_load_by_judge.csv").then(function (data) {
         const { judge, val } = closestJudge;
 
         hoverCircle
-            .attr("cx", x(year))
-            .attr("cy", y(val))
+            .attr("cx", activeX(year))
+            .attr("cy", activeY(val))
             .attr("stroke", color(judge))
             .style("opacity", 1);
 
-        const [ex, ey] = d3.pointer(event, d3.select("#annual-caseload-chart").node());
         tooltip
             .style("opacity", 1)
-            .style("left", (ex + 14) + "px")
-            .style("top", (ey - 28) + "px")
+            .style("left", (event.clientX + 14) + "px")
+            .style("top", (event.clientY - 28) + "px")
             .html(`<strong>${judge}</strong><br/>${year}: ${val} cases`);
-    });
+    }
+
+    overlay.on("mousemove", updateTooltip);
 
     overlay.on("mouseleave", function () {
         hoverCircle.style("opacity", 0);
@@ -241,75 +249,29 @@ d3.csv("assets/data/annual_case_load_by_judge.csv").then(function (data) {
         .translateExtent([[0, 0], [chartWidth, height]])
         .extent([[0, 0], [chartWidth, height]])
         .on("zoom", function (event) {
-            const newX = event.transform.rescaleX(x);
-            const newY = event.transform.rescaleY(y);
+            activeX = event.transform.rescaleX(x);
+            activeY = event.transform.rescaleY(y);
 
             // update axes
             svg.select(".x-axis")
-                .call(d3.axisBottom(newX)
+                .call(d3.axisBottom(activeX)
                     .tickFormat(d3.format("d"))
-                    .tickValues(allYears.filter(y => y >= Math.floor(newX.domain()[0]) && y <= Math.ceil(newX.domain()[1])))
+                    .tickValues(allYears.filter(y => y >= Math.floor(activeX.domain()[0]) && y <= Math.ceil(activeX.domain()[1])))
                 );
             svg.select(".y-axis")
-                .call(d3.axisLeft(newY));
+                .call(d3.axisLeft(activeY));
 
             // update all lines
             const newLineGen = d3.line()
                 .defined(d => d !== null)
-                .x(d => newX(d.year))
-                .y(d => newY(d.count));
+                .x(d => activeX(d.year))
+                .y(d => activeY(d.count));
 
             Object.entries(lines).forEach(([judge, path]) => {
                 const lineData = allYears
                     .map(yr => judgeMap[judge][yr] != null ? { year: yr, count: judgeMap[judge][yr] } : null)
                     .filter(d => d !== null);
                 path.attr("d", newLineGen(lineData));
-            });
-
-            // update tooltip mousemove to use new scales
-            overlay.on("mousemove", function (event) {
-                const [mx] = d3.pointer(event);
-                const year = Math.round(newX.invert(mx));
-
-                if (year < allYears[0] || year > allYears[allYears.length - 1]) {
-                    hoverCircle.style("opacity", 0);
-                    tooltip.style("opacity", 0);
-                    return;
-                }
-
-                const [, my] = d3.pointer(event);
-                let closestJudge = null;
-                let closestDist = Infinity;
-
-                judgesSorted.forEach(({ judge, years }) => {
-                    const val = years[year];
-                    if (val == null) return;
-                    const dist = Math.abs(newY(val) - my);
-                    if (dist < closestDist) {
-                        closestDist = dist;
-                        closestJudge = { judge, val };
-                    }
-                });
-
-                if (!closestJudge || closestDist > 30) {
-                    hoverCircle.style("opacity", 0);
-                    tooltip.style("opacity", 0);
-                    return;
-                }
-
-                const { judge, val } = closestJudge;
-                hoverCircle
-                    .attr("cx", newX(year))
-                    .attr("cy", newY(val))
-                    .attr("stroke", color(judge))
-                    .style("opacity", 1);
-
-                const [ex, ey] = d3.pointer(event, d3.select("#annual-caseload-chart").node());
-                tooltip
-                    .style("opacity", 1)
-                    .style("left", (ex + 14) + "px")
-                    .style("top", (ey - 28) + "px")
-                    .html(`<strong>${judge}</strong><br/>${year}: ${val} cases`);
             });
         });
 
@@ -322,9 +284,9 @@ d3.csv("assets/data/annual_case_load_by_judge.csv").then(function (data) {
     });
 
     // figure out how many judges fit in the left column alongside the chart
-    const chartHeightPx = height + margin.top + margin.bottom;
+    const chartHeightPx = height;
     const itemHeightPx = 20;
-    const leftColCount = Math.floor(chartHeightPx / itemHeightPx);
+    const leftColCount = Math.floor(chartHeightPx / itemHeightPx) + 1;
 
     function makeLegendItem(container, judge) {
         const item = container.append("span")
