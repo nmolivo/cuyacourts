@@ -93,9 +93,19 @@
           <!-- Main Content -->
           <div class="col-lg-8">
             <h4 id="caseload">Caseload Per Annum</h4>
-            <div id="annual-caseload-chart" style="width: 100%; height: 500px;"></div>
+            <div id="annual-caseload-chart" style="width: 100%;"></div>
+          
+          <pre class="code-block">SELECT start_year, judge_name, count(case_number)
+from (SELECT DISTINCT 
+    cd.case_number, cd.judge_name, cd.status,
+    EXTRACT(YEAR FROM MIN(TO_TIMESTAMP(d.filing_date::text, 'MM/DD/YYYY')::date) OVER (PARTITION BY cd.case_number)) AS start_year
+FROM case_defendant cd
+JOIN docket d ON cd.case_number = d.case_number)
+WHERE start_year > 2014 and status like '%CASE CLOSED%'
+GROUP BY judge_name, start_year
+ORDER BY judge_name, start_year DESC</pre>
+          </pre>
           </div>
-
         </div>
       </div>
     </section>
