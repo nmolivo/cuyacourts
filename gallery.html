@@ -95,15 +95,10 @@
             <h4 id="caseload">Caseload Per Annum</h4>
             <div id="annual-caseload-chart" style="width: 100%;"></div>
           
-          <pre class="code-block">SELECT start_year, judge_name, count(case_number)
-from (SELECT DISTINCT 
-    cd.case_number, cd.judge_name, cd.status,
-    EXTRACT(YEAR FROM MIN(TO_TIMESTAMP(d.filing_date::text, 'MM/DD/YYYY')::date) OVER (PARTITION BY cd.case_number)) AS start_year
-FROM case_defendant cd
-JOIN docket d ON cd.case_number = d.case_number)
-WHERE start_year > 2014 and status like '%CASE CLOSED%'
-GROUP BY judge_name, start_year
-ORDER BY judge_name, start_year DESC</pre>
+          <pre class="code-block">SELECT '20' || SPLIT_PART(case_number, '-', 2) as start_year, judge_name, count(SPLIT_PART(case_number, '-', 3)) as count
+FROM case_defendant 
+WHERE status LIKE '%CASE CLOSED%'
+GROUP BY start_year, judge_name</pre>
           </pre>
           </div>
         </div>
