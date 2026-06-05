@@ -3,6 +3,8 @@ on:
   push:
     branches-ignore:
       - "dependabot/**"
+    branches:
+      - develop
 
 permissions:
   id-token: write
@@ -24,7 +26,7 @@ jobs:
         run: |
           aws ec2 start-instances --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
           aws ec2 wait instance-running --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
-          sleep 10
+          sleep 15
 
       - name: Get DB secrets
         uses: aws-actions/aws-secretsmanager-get-secrets@v2
@@ -64,17 +66,10 @@ jobs:
           PGDATABASE: ${{ env.PGDATABASE }}
         run: |
           psql -c "COPY (
-              SELECT start_year, judge_name, count(case_number)
-              FROM (
-                  SELECT DISTINCT
-                  cd.case_number, cd.judge_name, cd.status,
-                  EXTRACT(YEAR FROM MIN(TO_TIMESTAMP(d.filing_date::text, 'MM/DD/YYYY')::date) OVER (PARTITION BY cd.case_number)) AS start_year
-                  FROM case_defendant cd
-                  JOIN docket d ON cd.case_number = d.case_number
-              ) sub
-              WHERE start_year > 2014
-                  AND status LIKE '%CASE CLOSED%'
-              GROUP BY judge_name, start_year
+              SELECT '20' || SPLIT_PART(case_number, '-', 2) AS start_year, judge_name, COUNT(SPLIT_PART(case_number, '-', 3)) AS count
+              FROM case_defendant
+              WHERE status LIKE '%CASE CLOSED%'
+              GROUP BY start_year, judge_name
               ORDER BY judge_name, start_year DESC
               ) TO STDOUT WITH CSV HEADER" > assets/data/annual_case_load_by_judge.csv
 
