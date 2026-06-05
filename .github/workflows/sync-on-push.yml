@@ -66,7 +66,7 @@ jobs:
           PGDATABASE: ${{ env.PGDATABASE }}
         run: |
           psql -c "COPY (
-              SELECT '20' || SPLIT_PART(case_number, '-', 2) AS start_year, judge_name, COUNT(SPLIT_PART(case_number, '-', 3)) AS count
+              SELECT '20' || SPLIT_PART(case_number, '-', 2) AS start_year, judge_name, COUNT(DISTINCT SPLIT_PART(case_number, '-', 3)) AS count
               FROM case_defendant
               WHERE status LIKE '%CASE CLOSED%'
               GROUP BY start_year, judge_name

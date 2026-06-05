@@ -95,7 +95,7 @@
             <h4 id="caseload">Caseload Per Annum</h4>
             <div id="annual-caseload-chart" style="width: 100%;"></div>
           
-          <pre class="code-block">SELECT '20' || SPLIT_PART(case_number, '-', 2) as start_year, judge_name, count(SPLIT_PART(case_number, '-', 3)) as count
+          <pre class="code-block">SELECT '20' || SPLIT_PART(case_number, '-', 2) as start_year, judge_name, count(DISTINCT SPLIT_PART(case_number, '-', 3)) as count
 FROM case_defendant 
 WHERE status LIKE '%CASE CLOSED%'
 GROUP BY start_year, judge_name</pre>
