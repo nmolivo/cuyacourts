@@ -1,8 +1,6 @@
 name: Refresh Data
 on:
   push:
-    branches-ignore:
-      - "dependabot/**"
     branches:
       - develop
 
@@ -12,6 +10,7 @@ permissions:
 
 jobs:
   refresh:
+    if: "!contains(github.head_ref || github.ref, 'chore')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
