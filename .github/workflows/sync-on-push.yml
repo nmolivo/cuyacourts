@@ -4,7 +4,7 @@ on:
     branches-ignore:
       - "dependabot/**"
     branches:
-      - develop
+      - "develop"
 
 permissions:
   id-token: write
