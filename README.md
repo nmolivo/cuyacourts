@@ -13,5 +13,3 @@ DB Size: 1166.19 MB
 - https://docs.djangoproject.com/en/4.2/intro/tutorial03/
 - DB Documentation https://github.com/MicahElliott/dbdoc
 - https://5minutebi.com/2023/02/16/create-html-documentation-for-your-data-discovery/
-
-We used a CDN to cache our html, server side rendered React with a separate Node process and fetched customer specific data client side from an API.
