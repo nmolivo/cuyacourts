@@ -56,7 +56,7 @@ jobs:
       - name: Create data directory
         run: mkdir -p assets/data
 
-      - name: Query DB and save CSV
+      - name: Query DB and save caseload annum CSV
         env:
           PGHOST: 127.0.0.1
           PGPORT: 5432
@@ -71,7 +71,23 @@ jobs:
               GROUP BY start_year, judge_name
               ORDER BY judge_name, start_year DESC
               ) TO STDOUT WITH CSV HEADER" > assets/data/annual_case_load_by_judge.csv
-
+      
+      - name: Query DB and save summary CSV
+        env:
+          PGHOST: 127.0.0.1
+          PGPORT: 5432
+          PGUSER: ${{ env.PGUSER }}
+          PGPASSWORD: ${{ env.PGPASSWORD }}
+          PGDATABASE: ${{ env.PGDATABASE }}
+        run: |
+          psql -c "COPY (
+              SELECT
+                  (SELECT COUNT(DISTINCT SPLIT_PART(case_number, '-', 2)) FROM case_defendant) AS years_included,
+                  (SELECT COUNT(DISTINCT id) FROM defendant) AS defendants,
+                  (SELECT COUNT(DISTINCT SPLIT_PART(case_number, '-', 3)) FROM case_defendant) AS cases,
+                  (SELECT COUNT(*) FROM docket) AS docket_rows,
+                  CURRENT_DATE AS as_of_date
+              ) TO STDOUT WITH CSV HEADER" > assets/data/summary.csv
       - name: Commit data
         run: |
           git config user.name "github-actions"
