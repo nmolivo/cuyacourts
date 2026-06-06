@@ -92,7 +92,7 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add assets/data/annual_case_load_by_judge.csv
+          git add assets/data/
           git diff --staged --quiet || git commit -m "chore: refresh chart data"
           git push
 
