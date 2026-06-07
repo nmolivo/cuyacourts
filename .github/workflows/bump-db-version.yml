@@ -48,7 +48,7 @@ jobs:
             echo "action=new_dump" >> $GITHUB_OUTPUT
           else
             # Current is lower than previous — check S3 and versions list
-            DUMP_KEY="cuya-courts-public/dump-v${CURRENT}.sql.gz"
+            DUMP_KEY="dump-v${CURRENT}.sql.gz"
             if aws s3api head-object --bucket ${{ secrets.S3_BUCKET }} --key "$DUMP_KEY" 2>/dev/null; then
               # Check if version exists in versions list
               MATCH=$(jq -r --arg v "$CURRENT" '.versions[] | select(.version==$v) | .version' version.json)
@@ -77,50 +77,47 @@ jobs:
           aws ec2 wait instance-running --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
           sleep 15
 
-      - name: Get DB secrets
-        if: steps.check.outputs.action == 'new_dump'
-        uses: aws-actions/aws-secretsmanager-get-secrets@v2
-        with:
-          secret-ids: |
-            ,${{ secrets.SECRET_NAME }}
-          parse-json-secrets: true
-
-      - name: Mask secrets
+      - name: Create dump on EC2 and upload to S3
         if: steps.check.outputs.action == 'new_dump'
         run: |
-          echo "::add-mask::${{ env.PGHOST }}"
-          echo "::add-mask::${{ env.PGPORT }}"
-          echo "::add-mask::${{ env.PGUSER }}"
-          echo "::add-mask::${{ env.PGPASSWORD }}"
-          echo "::add-mask::${{ env.PGDATABASE }}"
+          COMMAND_ID=$(aws ssm send-command \
+            --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
+            --document-name "AWS-RunShellScript" \
+            --parameters '{"commands":["export PGPASSWORD=$(aws secretsmanager get-secret-value --secret-id ${{ secrets.SECRET_NAME }} --query SecretString --output text | jq -r .PGPASSWORD)", "pg_dump -h ${{ env.PGHOST }} -U ${{ env.PGUSER }} ${{ env.PGDATABASE }} | gzip > /tmp/dump-v${{ steps.check.outputs.current }}.sql.gz", "aws s3 cp /tmp/dump-v${{ steps.check.outputs.current }}.sql.gz s3://${{ secrets.S3_BUCKET }}/cuya-courts-public/dump-v${{ steps.check.outputs.current }}.sql.gz", "rm /tmp/dump-v${{ steps.check.outputs.current }}.sql.gz"]}' \
+            --query 'Command.CommandId' \
+            --output text)
 
-      - name: Start SSM port forward
-        if: steps.check.outputs.action == 'new_dump'
-        run: |
-          aws ssm start-session \
-            --target ${{ secrets.EC2_INSTANCE_ID }} \
-            --document-name AWS-StartPortForwardingSessionToRemoteHost \
-            --parameters "{\"host\":[\"${{ env.PGHOST }}\"],\"portNumber\":[\"${{ env.PGPORT }}\"],\"localPortNumber\":[\"5432\"]}" &
-          sleep 5
+          echo "Waiting for command $COMMAND_ID to complete..."
+          aws ssm wait command-executed \
+            --command-id "$COMMAND_ID" \
+            --instance-id ${{ secrets.EC2_INSTANCE_ID }}
 
-      - name: Create and upload DB dump
-        if: steps.check.outputs.action == 'new_dump'
-        env:
-          PGHOST: 127.0.0.1
-          PGPORT: 5432
-          PGUSER: ${{ env.PGUSER }}
-          PGPASSWORD: ${{ env.PGPASSWORD }}
-          PGDATABASE: ${{ env.PGDATABASE }}
-        run: |
-          pg_dump | gzip > dump-v${{ steps.check.outputs.current }}.sql.gz
-          aws s3 cp dump-v${{ steps.check.outputs.current }}.sql.gz s3://${{ secrets.S3_BUCKET }}/cuya-courts-public/dump-v${{ steps.check.outputs.current }}.sql.gz
+          STATUS=$(aws ssm get-command-invocation \
+            --command-id "$COMMAND_ID" \
+            --instance-id ${{ secrets.EC2_INSTANCE_ID }} \
+            --query 'Status' \
+            --output text)
 
-      - name: Get sizes from new dump
+          if [ "$STATUS" != "Success" ]; then
+            aws ssm get-command-invocation \
+              --command-id "$COMMAND_ID" \
+              --instance-id ${{ secrets.EC2_INSTANCE_ID }} \
+              --query 'StandardErrorContent' \
+              --output text
+            exit 1
+          fi
+
+      - name: Get sizes from new dump in S3
         if: steps.check.outputs.action == 'new_dump'
         id: new_sizes
         run: |
-          COMPRESSED=$(du -sh dump-v${{ steps.check.outputs.current }}.sql.gz | cut -f1)
-          UNCOMPRESSED=$(gzip -l dump-v${{ steps.check.outputs.current }}.sql.gz | awk 'NR==2 {print $2}' | numfmt --to=iec)
+          SIZE_BYTES=$(aws s3api head-object \
+            --bucket ${{ secrets.S3_BUCKET }} \
+            --key cuya-courts-public/dump-v${{ steps.check.outputs.current }}.sql.gz \
+            --query ContentLength \
+            --output text)
+          COMPRESSED=$(numfmt --to=iec $SIZE_BYTES)
+          UNCOMPRESSED=$(aws s3 cp s3://${{ secrets.S3_BUCKET }}/cuya-courts-public/dump-v${{ steps.check.outputs.current }}.sql.gz - | gzip -l | awk 'NR==2 {print $2}' | numfmt --to=iec)
           echo "compressed=$COMPRESSED" >> $GITHUB_OUTPUT
           echo "uncompressed=$UNCOMPRESSED" >> $GITHUB_OUTPUT
 
@@ -159,7 +156,7 @@ jobs:
           DATE="${{ steps.check.outputs.date }}"
           COMPRESSED="${{ steps.sizes.outputs.compressed }}"
           UNCOMPRESSED="${{ steps.sizes.outputs.uncompressed }}"
-          LINK="https://${{ secrets.S3_BUCKET }}.s3.amazonaws.com/cuya-courts-public/dump-v${VERSION}.sql.gz"
+          LINK="https://${{ secrets.S3_BUCKET }}.s3.amazonaws.com/dump-v${VERSION}.sql.gz"
 
           sed -i "s|<!-- VERSION -->.*<!-- /VERSION -->|<!-- VERSION -->${VERSION}<!-- /VERSION -->|g" index.html
           sed -i "s|<!-- DATE -->.*<!-- /DATE -->|<!-- DATE -->${DATE}<!-- /DATE -->|g" index.html
@@ -173,7 +170,7 @@ jobs:
           DATE="${{ steps.check.outputs.date }}"
           COMPRESSED="${{ steps.sizes.outputs.compressed }}"
           UNCOMPRESSED="${{ steps.sizes.outputs.uncompressed }}"
-          LINK="https://${{ secrets.S3_BUCKET }}.s3.amazonaws.com/cuya-courts-public/dump-v${VERSION}.sql.gz"
+          LINK="https://${{ secrets.S3_BUCKET }}.s3.amazonaws.com/dump-v${VERSION}.sql.gz"
 
           sed -i "s|<!-- VERSION -->.*<!-- /VERSION -->|<!-- VERSION -->${VERSION}<!-- /VERSION -->|g" data-docs.html
           sed -i "s|<!-- DATE -->.*<!-- /DATE -->|<!-- DATE -->${DATE}<!-- /DATE -->|g" data-docs.html
@@ -192,7 +189,7 @@ jobs:
             DESCRIPTION=$(echo "$row" | jq -r '.description')
             COMPRESSED=$(echo "$row" | jq -r '.compressed_size // "N/A"')
             UNCOMPRESSED=$(echo "$row" | jq -r '.uncompressed_size // "N/A"')
-            LINK="https://${{ secrets.S3_BUCKET }}.s3.amazonaws.com/cuya-courts-public/dump-v${VERSION}.sql.gz"
+            LINK="https://${{ secrets.S3_BUCKET }}.s3.amazonaws.com/dump-v${VERSION}.sql.gz"
             TABLE+="| ${VERSION} | ${DATE} | ${DESCRIPTION} | ${COMPRESSED} | ${UNCOMPRESSED} | [Download](${LINK}) |\n"
           done < <(jq -c '.versions[]' version.json)
 
