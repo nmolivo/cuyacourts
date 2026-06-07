@@ -4,8 +4,12 @@ Court Data Transparency: A database of Cuyahoga County's Criminal Court Case doc
 
 Database documentation generated with Foliant.
 
-Compressed: 220.2 MB<br>
-DB Size: 1166.19 MB
+## Change log
+
+<!-- VERSION_TABLE_START -->
+<!-- VERSION_TABLE_END -->
+
+<!-- VERSION_TABLE_END -->
 
 - https://aws.amazon.com/blogs/containers/deploy-and-scale-django-applications-on-aws-app-runner/
 - https://testdriven.io/blog/deploying-django-to-ecs-with-terraform/
