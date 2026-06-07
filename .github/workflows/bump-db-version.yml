@@ -177,7 +177,6 @@ jobs:
           sed -i "s|<!-- COMPRESSED_SIZE -->.*<!-- /COMPRESSED_SIZE -->|<!-- COMPRESSED_SIZE -->${COMPRESSED}<!-- /COMPRESSED_SIZE -->|g" data-docs.html
           sed -i "s|<!-- UNCOMPRESSED_SIZE -->.*<!-- /UNCOMPRESSED_SIZE -->|<!-- UNCOMPRESSED_SIZE -->${UNCOMPRESSED}<!-- /UNCOMPRESSED_SIZE -->|g" data-docs.html
           sed -i "s|<!-- DUMP_LINK -->.*<!-- /DUMP_LINK -->|<!-- DUMP_LINK -->${LINK}<!-- /DUMP_LINK -->|g" data-docs.html
-
       - name: Regenerate README version table
         run: |
           TABLE="| Version | Date | Description | Compressed | Uncompressed | Download |\n"
@@ -189,13 +188,11 @@ jobs:
             DESCRIPTION=$(echo "$row" | jq -r '.description')
             COMPRESSED=$(echo "$row" | jq -r '.compressed_size // "N/A"')
             UNCOMPRESSED=$(echo "$row" | jq -r '.uncompressed_size // "N/A"')
-            LINK="https://${{ secrets.S3_BUCKET }}.s3.amazonaws.com/dump-v${VERSION}.sql.gz"
+            LINK="https://${{ secrets.S3_BUCKET }}.s3.amazonaws.com/cuya-courts-public/dump-v${VERSION}.sql.gz"
             TABLE+="| ${VERSION} | ${DATE} | ${DESCRIPTION} | ${COMPRESSED} | ${UNCOMPRESSED} | [Download](${LINK}) |\n"
           done < <(jq -c '.versions[]' version.json)
 
-          # Replace everything between the markers with the new table
-          perl -i -0pe "s|<!-- VERSION_TABLE_START -->.*<!-- VERSION_TABLE_END -->|<!-- VERSION_TABLE_START -->\n${TABLE}<!-- VERSION_TABLE_END -->|gs" README.md
-
+          perl -i -0pe "s@<!-- VERSION_TABLE_START -->.*<!-- VERSION_TABLE_END -->@<!-- VERSION_TABLE_START -->\n${TABLE}<!-- VERSION_TABLE_END -->@gs" README.md
       - name: Commit and push
         run: |
           git config user.name "github-actions"
