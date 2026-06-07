@@ -9,8 +9,6 @@ Database documentation generated with Foliant.
 <!-- VERSION_TABLE_START -->
 <!-- VERSION_TABLE_END -->
 
-<!-- VERSION_TABLE_END -->
-
 - https://aws.amazon.com/blogs/containers/deploy-and-scale-django-applications-on-aws-app-runner/
 - https://testdriven.io/blog/deploying-django-to-ecs-with-terraform/
 - https://www.youtube.com/watch?v=oCu3_JKsYYc

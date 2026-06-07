@@ -1,7 +1,7 @@
 {
     "versions": [
         {
-            "version": "1.1.0",
+            "version": "1.2.0",
             "date": "2026-07-16",
             "description": "Database publish date is not the same as when the record was appended to the database. Please refer to the `progress` table to see the as-of date."
         },
