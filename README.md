@@ -9,8 +9,8 @@ Database documentation generated with Foliant.
 <!-- VERSION_TABLE_START -->
 | Version | Date | Description | Compressed | Uncompressed | Download |
 | ------- | ---- | ----------- | ---------- | ------------ | -------- |
-| 1.2.0 | 2026-06-07 | Database publish date is not the same as when the record was appended to the database. Please refer to the `progress` table to see the as-of date. | 20 | 0 | [Download](https://cuya-courts-public.s3.amazonaws.com/cuya-courts-public/dump-v1.2.0.sql.gz) |
-| 1.0.0 | 2023-07-12 | Initial release of the Cuyahoga County Courts dataset, covering 8 years of case data. Database publish date is not the same as when the record was appended to the database. Please refer to the `progress` table to see the as-of date. | 220.2 MB | 1166.19 MB | [Download](https://cuya-courts-public.s3.amazonaws.com/cuya-courts-public/dump-v1.0.0.sql.gz) |
+| 1.4.0 | 2026-06-07 | Please refer to the `progress` table to see the as-of date. | 0.00MB | 0.00MB | [Download](https://cuya-courts-public.s3.amazonaws.com/dump-v1.4.0.sql.gz) |
+| 1.0.0 | 2023-07-12 | Initial release of the Cuyahoga County Courts dataset, covering 8 years of case data. Database publish date is not the same as when the record was appended to the database. Please refer to the `progress` table to see the as-of date. | 220.2 MB | 1166.19 MB | [Download](https://cuya-courts-public.s3.amazonaws.com/dump-v1.0.0.sql.gz) |
 <!-- VERSION_TABLE_END -->
 
 - https://aws.amazon.com/blogs/containers/deploy-and-scale-django-applications-on-aws-app-runner/
