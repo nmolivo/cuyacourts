@@ -1,11 +1,9 @@
 {
   "versions": [
     {
-      "version": "1.4.0",
+      "version": "1.5.0",
       "description": "Please refer to the `progress` table to see the as-of date.",
-      "date": "2026-06-07",
-      "compressed_size": "0.00MB",
-      "uncompressed_size": "0.00MB"
+      "date": "2026-06-07"
     },
     {
       "version": "1.0.0",

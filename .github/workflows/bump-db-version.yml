@@ -94,7 +94,7 @@ jobs:
               "pg_dump -h $PGHOST -U $PGUSER $PGDATABASE > /tmp/dump-v${{ steps.check.outputs.current }}.sql",
               "UNCOMPRESSED=$(wc -c < /tmp/dump-v${{ steps.check.outputs.current }}.sql)",
               "gzip /tmp/dump-v${{ steps.check.outputs.current }}.sql",
-              "aws s3 cp /tmp/dump-v${{ steps.check.outputs.current }}.sql.gz s3://${{ secrets.S3_BUCKET }}/cuya-courts-public/dump-v${{ steps.check.outputs.current }}.sql.gz",
+              "aws s3 cp /tmp/dump-v${{ steps.check.outputs.current }}.sql.gz s3://${{ secrets.S3_BUCKET }}/dump-v${{ steps.check.outputs.current }}.sql.gz",
               "echo UNCOMPRESSED_BYTES=$UNCOMPRESSED",
               "rm /tmp/dump-v${{ steps.check.outputs.current }}.sql.gz"
             ]}' \
