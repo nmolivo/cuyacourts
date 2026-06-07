@@ -89,7 +89,7 @@ jobs:
               "pg_dump -h ${{ env.PGHOST }} -U ${{ env.PGUSER }} ${{ env.PGDATABASE }} > /tmp/dump-v${{ steps.check.outputs.current }}.sql",
               "UNCOMPRESSED=$(wc -c < /tmp/dump-v${{ steps.check.outputs.current }}.sql)",
               "gzip /tmp/dump-v${{ steps.check.outputs.current }}.sql",
-              "aws s3 cp /tmp/dump-v${{ steps.check.outputs.current }}.sql.gz s3://${{ secrets.S3_BUCKET }}/cuya-courts-public/dump-v${{ steps.check.outputs.current }}.sql.gz",
+              "aws s3 cp /tmp/dump-v${{ steps.check.outputs.current }}.sql.gz s3://${{ secrets.S3_BUCKET }}/dump-v${{ steps.check.outputs.current }}.sql.gz",
               "echo UNCOMPRESSED_BYTES=$UNCOMPRESSED",
               "rm /tmp/dump-v${{ steps.check.outputs.current }}.sql.gz"
             ]}' \
@@ -130,7 +130,7 @@ jobs:
         run: |
           SIZE_BYTES=$(aws s3api head-object \
             --bucket ${{ secrets.S3_BUCKET }} \
-            --key cuya-courts-public/dump-v${{ steps.check.outputs.current }}.sql.gz \
+            --key dump-v${{ steps.check.outputs.current }}.sql.gz \
             --query ContentLength \
             --output text)
           COMPRESSED=$(awk "BEGIN {printf \"%.2fMB\", $SIZE_BYTES/1048576}")
@@ -206,7 +206,7 @@ jobs:
             DESCRIPTION=$(echo "$row" | jq -r '.description')
             COMPRESSED=$(echo "$row" | jq -r '.compressed_size // "N/A"')
             UNCOMPRESSED=$(echo "$row" | jq -r '.uncompressed_size // "N/A"')
-            LINK="https://${{ secrets.S3_BUCKET }}.s3.amazonaws.com/cuya-courts-public/dump-v${VERSION}.sql.gz"
+            LINK="https://${{ secrets.S3_BUCKET }}.s3.amazonaws.com/dump-v${VERSION}.sql.gz"
             TABLE+="| ${VERSION} | ${DATE} | ${DESCRIPTION} | ${COMPRESSED} | ${UNCOMPRESSED} | [Download](${LINK}) |\n"
           done < <(jq -c '.versions[]' version.json)
 
