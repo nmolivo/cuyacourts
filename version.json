@@ -3,7 +3,9 @@
     {
       "version": "1.7.1",
       "description": "Please refer to the `progress` table to see the as-of date.",
-      "date": "2026-06-07"
+      "date": "2026-06-07",
+      "compressed_size": "",
+      "uncompressed_size": ""
     },
     {
       "version": "1.0.0",
