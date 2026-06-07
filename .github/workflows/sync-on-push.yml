@@ -1,8 +1,10 @@
 name: Refresh Data
 on:
   push:
-    branches:
-      - develop
+    branches-ignore:
+      - main
+    paths:
+      - version.json
 
 permissions:
   id-token: write

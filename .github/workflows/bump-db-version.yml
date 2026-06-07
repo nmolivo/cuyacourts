@@ -150,6 +150,23 @@ jobs:
           echo "DEBUG uncompressed_bytes=${{ steps.dump.outputs.uncompressed_bytes }}"
           echo "compressed=$COMPRESSED" >> $GITHUB_OUTPUT
           echo "uncompressed=$UNCOMPRESSED" >> $GITHUB_OUTPUT
+      
+      - name: Set final sizes
+        id: sizes
+        run: |
+          if [ "${{ steps.check.outputs.action }}" == "new_dump" ]; then
+            UNCOMPRESSED_BYTES="${{ steps.dump.outputs.uncompressed_bytes }}"
+            SIZE_BYTES=$(aws s3api head-object \
+              --bucket ${{ secrets.S3_BUCKET }} \
+              --key v${{ steps.check.outputs.current }}_dump.sql.gz \
+              --query ContentLength \
+              --output text)
+            echo "compressed=$(awk "BEGIN {printf \"%.2fMB\", $SIZE_BYTES/1048576}")" >> $GITHUB_OUTPUT
+            echo "uncompressed=$(awk "BEGIN {printf \"%.2fMB\", $UNCOMPRESSED_BYTES/1048576}")" >> $GITHUB_OUTPUT
+          else
+            echo "compressed=${{ steps.existing_sizes.outputs.compressed }}" >> $GITHUB_OUTPUT
+            echo "uncompressed=${{ steps.existing_sizes.outputs.uncompressed }}" >> $GITHUB_OUTPUT
+          fi
 
       - name: Update version.json with sizes and date
         run: |

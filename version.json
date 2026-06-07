@@ -1,14 +1,12 @@
 {
   "versions": [
     {
-      "version": "1.7.2",
+      "version": "2.0",
       "description": "Please refer to the `progress` table to see the as-of date.",
-      "date": "2026-06-07",
-      "compressed_size": "",
-      "uncompressed_size": ""
+      "date": "2026-06-07"
     },
     {
-      "version": "1.0.0",
+      "version": "1.0",
       "date": "2023-07-12",
       "description": "Initial release of the Cuyahoga County Courts dataset, covering 8 years of case data. Database publish date is not the same as when the record was appended to the database. Please refer to the `progress` table to see the as-of date.",
       "compressed_size": "220.2 MB",
