@@ -79,11 +79,20 @@ jobs:
 
       - name: Create dump on EC2 and upload to S3
         if: steps.check.outputs.action == 'new_dump'
+        id: dump
         run: |
           COMMAND_ID=$(aws ssm send-command \
             --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
             --document-name "AWS-RunShellScript" \
-            --parameters '{"commands":["export PGPASSWORD=$(aws secretsmanager get-secret-value --secret-id ${{ secrets.SECRET_NAME }} --query SecretString --output text | jq -r .PGPASSWORD)", "pg_dump -h ${{ env.PGHOST }} -U ${{ env.PGUSER }} ${{ env.PGDATABASE }} | gzip > /tmp/dump-v${{ steps.check.outputs.current }}.sql.gz", "aws s3 cp /tmp/dump-v${{ steps.check.outputs.current }}.sql.gz s3://${{ secrets.S3_BUCKET }}/cuya-courts-public/dump-v${{ steps.check.outputs.current }}.sql.gz", "rm /tmp/dump-v${{ steps.check.outputs.current }}.sql.gz"]}' \
+            --parameters '{"commands":[
+              "export PGPASSWORD=$(aws secretsmanager get-secret-value --secret-id ${{ secrets.SECRET_NAME }} --query SecretString --output text | jq -r .PGPASSWORD)",
+              "pg_dump -h ${{ env.PGHOST }} -U ${{ env.PGUSER }} ${{ env.PGDATABASE }} > /tmp/dump-v${{ steps.check.outputs.current }}.sql",
+              "UNCOMPRESSED=$(wc -c < /tmp/dump-v${{ steps.check.outputs.current }}.sql)",
+              "gzip /tmp/dump-v${{ steps.check.outputs.current }}.sql",
+              "aws s3 cp /tmp/dump-v${{ steps.check.outputs.current }}.sql.gz s3://${{ secrets.S3_BUCKET }}/cuya-courts-public/dump-v${{ steps.check.outputs.current }}.sql.gz",
+              "echo UNCOMPRESSED_BYTES=$UNCOMPRESSED",
+              "rm /tmp/dump-v${{ steps.check.outputs.current }}.sql.gz"
+            ]}' \
             --query 'Command.CommandId' \
             --output text)
 
@@ -107,6 +116,14 @@ jobs:
             exit 1
           fi
 
+          UNCOMPRESSED_BYTES=$(aws ssm get-command-invocation \
+            --command-id "$COMMAND_ID" \
+            --instance-id ${{ secrets.EC2_INSTANCE_ID }} \
+            --query 'StandardOutputContent' \
+            --output text | grep UNCOMPRESSED_BYTES | cut -d= -f2 | tr -d '[:space:]')
+
+          echo "uncompressed_bytes=$UNCOMPRESSED_BYTES" >> $GITHUB_OUTPUT
+
       - name: Get sizes from new dump in S3
         if: steps.check.outputs.action == 'new_dump'
         id: new_sizes
@@ -117,9 +134,7 @@ jobs:
             --query ContentLength \
             --output text)
           COMPRESSED=$(awk "BEGIN {printf \"%.2fMB\", $SIZE_BYTES/1048576}")
-
-          UNCOMPRESSED_BYTES=$(aws s3 cp s3://${{ secrets.S3_BUCKET }}/cuya-courts-public/dump-v${{ steps.check.outputs.current }}.sql.gz - | gzip -dc | wc -c)
-          UNCOMPRESSED=$(awk "BEGIN {printf \"%.2fMB\", $UNCOMPRESSED_BYTES/1048576}")
+          UNCOMPRESSED=$(awk "BEGIN {printf \"%.2fMB\", ${{ steps.dump.outputs.uncompressed_bytes }}/1048576}")
 
           echo "compressed=$COMPRESSED" >> $GITHUB_OUTPUT
           echo "uncompressed=$UNCOMPRESSED" >> $GITHUB_OUTPUT
