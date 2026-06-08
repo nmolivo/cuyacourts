@@ -1,0 +1,241 @@
+name: Bump DB Version
+
+on:
+  push:
+    branches-ignore:
+      - main
+    paths:
+      - version.json
+
+concurrency:
+  group: bump-db-version
+  cancel-in-progress: false
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  bump:
+    if: "!contains(github.head_ref || github.ref, 'chore')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.ROLE_NAME }}
+          aws-region: us-east-1
+
+      - name: Read versions and determine action
+        id: check
+        run: |
+          CURRENT=$(jq -r '.versions[0].version' version.json)
+          PREVIOUS=$(jq -r '.versions[1].version // "0.0.0"' version.json)
+          DATE=$(date +%Y-%m-%d)
+          DESCRIPTION=$(jq -r '.versions[0].description' version.json)
+
+          echo "current=$CURRENT" >> $GITHUB_OUTPUT
+          echo "previous=$PREVIOUS" >> $GITHUB_OUTPUT
+          echo "date=$DATE" >> $GITHUB_OUTPUT
+          echo "description=$DESCRIPTION" >> $GITHUB_OUTPUT
+
+          # Compare versions using sort -V
+          HIGHER=$(printf '%s\n' "$CURRENT" "$PREVIOUS" | sort -V | tail -1)
+
+          if [ "$CURRENT" == "$PREVIOUS" ]; then
+            echo "action=fail" >> $GITHUB_OUTPUT
+            echo "fail_reason=Version has not changed from $PREVIOUS. Please update the version number." >> $GITHUB_OUTPUT
+          elif [ "$CURRENT" == "$HIGHER" ]; then
+            echo "action=new_dump" >> $GITHUB_OUTPUT
+          else
+            # Current is lower than previous — check S3 and versions list
+            DUMP_KEY="v${CURRENT}_dump.sql.gz"
+            if aws s3api head-object --bucket ${{ secrets.S3_BUCKET }} --key "$DUMP_KEY" 2>/dev/null; then
+              # Check if version exists in versions list
+              MATCH=$(jq -r --arg v "$CURRENT" '.versions[] | select(.version==$v) | .version' version.json)
+              if [ -z "$MATCH" ]; then
+                echo "action=fail" >> $GITHUB_OUTPUT
+                echo "fail_reason=Older version $CURRENT does not exist in version.json. Please increase the version number." >> $GITHUB_OUTPUT
+              else
+                echo "action=existing_dump" >> $GITHUB_OUTPUT
+              fi
+            else
+              echo "action=fail" >> $GITHUB_OUTPUT
+              echo "fail_reason=Older version $CURRENT does not exist in S3. Please increase the version number." >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - name: Fail with message
+        if: steps.check.outputs.action == 'fail'
+        run: |
+          echo "::error::${{ steps.check.outputs.fail_reason }}"
+          exit 1
+
+      - name: Start EC2
+        if: steps.check.outputs.action == 'new_dump'
+        run: |
+          aws ec2 start-instances --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
+          aws ec2 wait instance-running --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
+          sleep 15
+
+      - name: Install PostgreSQL 17 client
+        if: steps.check.outputs.action == 'new_dump'
+        run: |
+          sudo apt-get install -y gnupg
+          curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg
+          echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client-17
+
+      - name: Get DB secrets
+        uses: aws-actions/aws-secretsmanager-get-secrets@v2
+        with:
+          secret-ids: |
+            ,${{ secrets.SECRET_NAME }}
+          parse-json-secrets: true
+
+      - name: Mask secrets
+        run: |
+          echo "::add-mask::${{ env.PGHOST }}"
+          echo "::add-mask::${{ env.PGPORT }}"
+          echo "${{ env.PGUSER }}"
+          echo "::add-mask::${{ env.PGPASSWORD }}"
+          echo "::add-mask::${{ env.PGDATABASE }}"
+          echo "::add-mask::${{ secrets.AWS_ACCOUNT_ID }}"
+          echo "::add-mask::${{ secrets.ROLE_NAME }}"
+          echo "::add-mask::${{ secrets.EC2_INSTANCE_ID }}"
+
+      - name: Start SSM port forward
+        run: |
+          aws ssm start-session \
+            --target ${{ secrets.EC2_INSTANCE_ID }} \
+            --document-name AWS-StartPortForwardingSessionToRemoteHost \
+            --parameters "{\"host\":[\"${{ env.PGHOST }}\"],\"portNumber\":[\"${{ env.PGPORT }}\"],\"localPortNumber\":[\"5432\"]}" &
+          sleep 5
+
+      - name: Create dump and upload to S3
+        if: steps.check.outputs.action == 'new_dump'
+        id: dump
+        env:
+          PGHOST: 127.0.0.1
+          PGPORT: 5432
+          PGUSER: ${{ env.PGUSER }}
+          PGPASSWORD: ${{ env.PGPASSWORD }}
+          PGDATABASE: ${{ env.PGDATABASE }}
+        run: |
+          pg_dump \
+          --exclude-schema=aws_commons \
+          --exclude-schema=aws_s3 \
+          --exclude-schema=aws_lambda \
+          --no-owner \
+          --no-privileges \
+          > /tmp/v${{ steps.check.outputs.current }}_dump.sql
+          UNCOMPRESSED_BYTES=$(wc -c < /tmp/v${{ steps.check.outputs.current }}_dump.sql)
+          echo "uncompressed_bytes=$UNCOMPRESSED_BYTES" >> $GITHUB_OUTPUT
+          gzip /tmp/v${{ steps.check.outputs.current }}_dump.sql
+          aws s3 cp /tmp/v${{ steps.check.outputs.current }}_dump.sql.gz s3://${{ secrets.S3_BUCKET }}/v${{ steps.check.outputs.current }}_dump.sql.gz
+          rm /tmp/v${{ steps.check.outputs.current }}_dump.sql.gz
+
+      - name: Get sizes from new dump in S3
+        if: steps.check.outputs.action == 'new_dump'
+        id: new_sizes
+        run: |
+          SIZE_BYTES=$(aws s3api head-object \
+            --bucket ${{ secrets.S3_BUCKET }} \
+            --key v${{ steps.check.outputs.current }}_dump.sql.gz \
+            --query ContentLength \
+            --output text)
+          COMPRESSED=$(awk "BEGIN {printf \"%.2fMB\", $SIZE_BYTES/1048576}")
+          UNCOMPRESSED=$(awk "BEGIN {printf \"%.2fMB\", ${{ steps.dump.outputs.uncompressed_bytes }}/1048576}")
+          echo "DEBUG size_bytes=$SIZE_BYTES"
+          echo "DEBUG uncompressed_bytes=${{ steps.dump.outputs.uncompressed_bytes }}"
+          echo "compressed=$COMPRESSED" >> $GITHUB_OUTPUT
+          echo "uncompressed=$UNCOMPRESSED" >> $GITHUB_OUTPUT
+
+      - name: Set final sizes
+        id: sizes
+        run: |
+          if [ "${{ steps.check.outputs.action }}" == "new_dump" ]; then
+            UNCOMPRESSED_BYTES="${{ steps.dump.outputs.uncompressed_bytes }}"
+            SIZE_BYTES=$(aws s3api head-object \
+              --bucket ${{ secrets.S3_BUCKET }} \
+              --key v${{ steps.check.outputs.current }}_dump.sql.gz \
+              --query ContentLength \
+              --output text)
+            echo "compressed=$(awk "BEGIN {printf \"%.2fMB\", $SIZE_BYTES/1048576}")" >> $GITHUB_OUTPUT
+            echo "uncompressed=$(awk "BEGIN {printf \"%.2fMB\", $UNCOMPRESSED_BYTES/1048576}")" >> $GITHUB_OUTPUT
+          else
+            echo "compressed=${{ steps.existing_sizes.outputs.compressed }}" >> $GITHUB_OUTPUT
+            echo "uncompressed=${{ steps.existing_sizes.outputs.uncompressed }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Git pull
+        run: git pull origin ${{ github.ref }}
+      - name: Update version.json with sizes and date
+        run: |
+          jq --arg v "${{ steps.check.outputs.current }}" \
+              --arg c "${{ steps.sizes.outputs.compressed }}" \
+              --arg u "${{ steps.sizes.outputs.uncompressed }}" \
+              --arg d "${{ steps.check.outputs.date }}" \
+              '(.versions[] | select(.version==$v)) |= . + {compressed_size: $c, uncompressed_size: $u, date: $d}' \
+              version.json > tmp.json && mv tmp.json version.json
+
+      - name: Update index.html
+        run: |
+          VERSION="${{ steps.check.outputs.current }}"
+          DATE="${{ steps.check.outputs.date }}"
+          COMPRESSED="${{ steps.sizes.outputs.compressed }}"
+          UNCOMPRESSED="${{ steps.sizes.outputs.uncompressed }}"
+          LINK="https://${{ secrets.S3_BUCKET }}.s3.amazonaws.com/v${VERSION}_dump.sql.gz"
+
+          sed -i "s|<!-- VERSION -->.*<!-- /VERSION -->|<!-- VERSION -->${VERSION}<!-- /VERSION -->|g" index.html
+          sed -i "s|<!-- DATE -->.*<!-- /DATE -->|<!-- DATE -->${DATE}<!-- /DATE -->|g" index.html
+          sed -i "s|<!-- COMPRESSED_SIZE -->.*<!-- /COMPRESSED_SIZE -->|<!-- COMPRESSED_SIZE -->${COMPRESSED}<!-- /COMPRESSED_SIZE -->|g" index.html
+          sed -i "s|<!-- UNCOMPRESSED_SIZE -->.*<!-- /UNCOMPRESSED_SIZE -->|<!-- UNCOMPRESSED_SIZE -->${UNCOMPRESSED}<!-- /UNCOMPRESSED_SIZE -->|g" index.html
+          sed -i "s|<!-- DUMP_LINK -->.*<!-- /DUMP_LINK -->|<!-- DUMP_LINK -->${LINK}<!-- /DUMP_LINK -->|g" index.html
+
+      - name: Update data-docs.html
+        run: |
+          VERSION="${{ steps.check.outputs.current }}"
+          DATE="${{ steps.check.outputs.date }}"
+          COMPRESSED="${{ steps.sizes.outputs.compressed }}"
+          UNCOMPRESSED="${{ steps.sizes.outputs.uncompressed }}"
+          LINK="https://${{ secrets.S3_BUCKET }}.s3.amazonaws.com/v${VERSION}_dump.sql.gz"
+
+          sed -i "s|<!-- VERSION -->.*<!-- /VERSION -->|<!-- VERSION -->${VERSION}<!-- /VERSION -->|g" data-docs.html
+          sed -i "s|<!-- DATE -->.*<!-- /DATE -->|<!-- DATE -->${DATE}<!-- /DATE -->|g" data-docs.html
+          sed -i "s|<!-- COMPRESSED_SIZE -->.*<!-- /COMPRESSED_SIZE -->|<!-- COMPRESSED_SIZE -->${COMPRESSED}<!-- /COMPRESSED_SIZE -->|g" data-docs.html
+          sed -i "s|<!-- UNCOMPRESSED_SIZE -->.*<!-- /UNCOMPRESSED_SIZE -->|<!-- UNCOMPRESSED_SIZE -->${UNCOMPRESSED}<!-- /UNCOMPRESSED_SIZE -->|g" data-docs.html
+          sed -i "s|<!-- DUMP_LINK -->.*<!-- /DUMP_LINK -->|<!-- DUMP_LINK -->${LINK}<!-- /DUMP_LINK -->|g" data-docs.html
+      - name: Regenerate README version table
+        run: |
+          TABLE="| Version | Date | Description | Compressed | Uncompressed | Download |\n"
+          TABLE+="| ------- | ---- | ----------- | ---------- | ------------ | -------- |\n"
+
+          while IFS= read -r row; do
+            VERSION=$(echo "$row" | jq -r '.version')
+            DATE=$(echo "$row" | jq -r '.date')
+            DESCRIPTION=$(echo "$row" | jq -r '.description')
+            COMPRESSED=$(echo "$row" | jq -r '.compressed_size // "N/A"')
+            UNCOMPRESSED=$(echo "$row" | jq -r '.uncompressed_size // "N/A"')
+            LINK="https://${{ secrets.S3_BUCKET }}.s3.amazonaws.com/v${VERSION}_dump.sql.gz"
+            TABLE+="| ${VERSION} | ${DATE} | ${DESCRIPTION} | ${COMPRESSED} | ${UNCOMPRESSED} | [Download](${LINK}) |\n"
+          done < <(jq -c '.versions[]' version.json)
+
+          perl -i -0pe "s@<!-- VERSION_TABLE_START -->.*<!-- VERSION_TABLE_END -->@<!-- VERSION_TABLE_START -->\n${TABLE}<!-- VERSION_TABLE_END -->@gs" README.md
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add version.json README.md index.html data-docs.html
+          git diff --staged --quiet || git commit -m "chore: bump version to ${{ steps.check.outputs.current }}"
+          git push
+
+      - name: Stop EC2
+        if: always()
+        run: |
+          aws ec2 stop-instances --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
