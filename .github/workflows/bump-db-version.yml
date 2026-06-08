@@ -8,7 +8,7 @@ on:
       - version.json
 
 concurrency:
-  group: git-push
+  group: bump-db-version
   cancel-in-progress: false
 
 permissions:
