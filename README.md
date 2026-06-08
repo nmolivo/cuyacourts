@@ -7,11 +7,10 @@ Database documentation generated with Foliant.
 ## Change log
 
 <!-- VERSION_TABLE_START -->
-
-| Version | Date       | Description                                                                                                                                                                                                                              | Compressed | Uncompressed | Download                                                                   |
-| ------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------------ | -------------------------------------------------------------------------- |
-| 1.0     | 2023-07-12 | Initial release of the Cuyahoga County Courts dataset, covering 8 years of case data. Database publish date is not the same as when the record was appended to the database. Please refer to the `progress` table to see the as-of date. | 220.2 MB   | 1166.19 MB   | [Download](https://cuya-courts-public.s3.amazonaws.com/v1.0.0_dump.sql.gz) |
-
+| Version | Date | Description | Compressed | Uncompressed | Download |
+| ------- | ---- | ----------- | ---------- | ------------ | -------- |
+| 2.0 | 2026-06-08 | Scraped open cases from the past, and collected more of 2023 caseloads | 269.13MB | 1348.26MB | [Download](https://cuya-courts-public.s3.amazonaws.com/v2.0_dump.sql.gz) |
+| 1.0 | 2023-07-12 | Initial release of the Cuyahoga County Courts dataset, covering 8 years of case data. Database publish date is not the same as when the record was appended to the database. Please refer to the `progress` table to see the as-of date. | 220.2 MB | 1166.19 MB | [Download](https://cuya-courts-public.s3.amazonaws.com/v1.0_dump.sql.gz) |
 <!-- VERSION_TABLE_END -->
 
 - https://aws.amazon.com/blogs/containers/deploy-and-scale-django-applications-on-aws-app-runner/
