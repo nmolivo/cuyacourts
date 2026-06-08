@@ -1,10 +1,15 @@
 name: Refresh Data
+
 on:
   push:
     branches-ignore:
       - main
     paths:
       - version.json
+
+concurrency:
+  group: git-push
+  cancel-in-progress: false
 
 permissions:
   id-token: write
