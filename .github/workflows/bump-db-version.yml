@@ -81,7 +81,7 @@ jobs:
           aws ec2 start-instances --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
           aws ec2 wait instance-running --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
           sleep 15
-      
+
       - name: Install PostgreSQL 17 client
         if: steps.check.outputs.action == 'new_dump'
         run: |
@@ -155,7 +155,7 @@ jobs:
           echo "DEBUG uncompressed_bytes=${{ steps.dump.outputs.uncompressed_bytes }}"
           echo "compressed=$COMPRESSED" >> $GITHUB_OUTPUT
           echo "uncompressed=$UNCOMPRESSED" >> $GITHUB_OUTPUT
-      
+
       - name: Set final sizes
         id: sizes
         run: |
@@ -173,6 +173,8 @@ jobs:
             echo "uncompressed=${{ steps.existing_sizes.outputs.uncompressed }}" >> $GITHUB_OUTPUT
           fi
 
+      - name: Git pull
+        run: git pull origin ${{ github.ref }}
       - name: Update version.json with sizes and date
         run: |
           jq --arg v "${{ steps.check.outputs.current }}" \

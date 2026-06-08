@@ -78,7 +78,7 @@ jobs:
               GROUP BY start_year, judge_name
               ORDER BY judge_name, start_year DESC
               ) TO STDOUT WITH CSV HEADER" > assets/data/annual_case_load_by_judge.csv
-      
+
       - name: Query DB and save summary CSV
         env:
           PGHOST: 127.0.0.1
