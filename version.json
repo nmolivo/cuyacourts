@@ -1,7 +1,7 @@
 {
   "versions": [
     {
-      "version": "2.0",
+      "version": "2.1",
       "description": "Scraped open cases from the past, and collected more of 2023 caseloads",
       "date": "2026-06-08",
       "compressed_size": "269.13MB",
