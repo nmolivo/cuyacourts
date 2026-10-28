@@ -45,10 +45,8 @@ jobs:
 
           # Compare versions using sort -V
           HIGHER=$(printf '%s\n' "$CURRENT" "$PREVIOUS" | sort -V | tail -1)
-
           if [ "$CURRENT" == "$PREVIOUS" ]; then
-            echo "action=fail" >> $GITHUB_OUTPUT
-            echo "fail_reason=Version has not changed from $PREVIOUS. Please update the version number." >> $GITHUB_OUTPUT
+            echo "action=unchanged" >> $GITHUB_OUTPUT
           elif [ "$CURRENT" == "$HIGHER" ]; then
             echo "action=new_dump" >> $GITHUB_OUTPUT
           else
@@ -68,6 +66,10 @@ jobs:
               echo "fail_reason=Older version $CURRENT does not exist in S3. Please increase the version number." >> $GITHUB_OUTPUT
             fi
           fi
+
+      - name: Report unchanged version
+        if: steps.check.outputs.action == 'unchanged'
+        run: echo "No change in version detected in version.json. no database download update."
 
       - name: Fail with message
         if: steps.check.outputs.action == 'fail'
@@ -92,6 +94,7 @@ jobs:
           sudo apt-get install -y postgresql-client-17
 
       - name: Get DB secrets
+        if: steps.check.outputs.action != 'unchanged'
         uses: aws-actions/aws-secretsmanager-get-secrets@v2
         with:
           secret-ids: |
@@ -99,6 +102,7 @@ jobs:
           parse-json-secrets: true
 
       - name: Mask secrets
+        if: steps.check.outputs.action != 'unchanged'
         run: |
           echo "::add-mask::${{ env.PGHOST }}"
           echo "::add-mask::${{ env.PGPORT }}"
@@ -110,6 +114,7 @@ jobs:
           echo "::add-mask::${{ secrets.EC2_INSTANCE_ID }}"
 
       - name: Start SSM port forward
+        if: steps.check.outputs.action != 'unchanged'
         run: |
           aws ssm start-session \
             --target ${{ secrets.EC2_INSTANCE_ID }} \
@@ -157,6 +162,7 @@ jobs:
           echo "uncompressed=$UNCOMPRESSED" >> $GITHUB_OUTPUT
 
       - name: Set final sizes
+        if: steps.check.outputs.action != 'unchanged'
         id: sizes
         run: |
           if [ "${{ steps.check.outputs.action }}" == "new_dump" ]; then
@@ -174,8 +180,10 @@ jobs:
           fi
 
       - name: Git pull
+        if: steps.check.outputs.action != 'unchanged'
         run: git pull origin ${{ github.ref }}
       - name: Update version.json with sizes and date
+        if: steps.check.outputs.action != 'unchanged'
         run: |
           jq --arg v "${{ steps.check.outputs.current }}" \
               --arg c "${{ steps.sizes.outputs.compressed }}" \
@@ -185,6 +193,7 @@ jobs:
               version.json > tmp.json && mv tmp.json version.json
 
       - name: Update index.html
+        if: steps.check.outputs.action != 'unchanged'
         run: |
           VERSION="${{ steps.check.outputs.current }}"
           DATE="${{ steps.check.outputs.date }}"
@@ -196,9 +205,10 @@ jobs:
           sed -i "s|<!-- DATE -->.*<!-- /DATE -->|<!-- DATE -->${DATE}<!-- /DATE -->|g" index.html
           sed -i "s|<!-- COMPRESSED_SIZE -->.*<!-- /COMPRESSED_SIZE -->|<!-- COMPRESSED_SIZE -->${COMPRESSED}<!-- /COMPRESSED_SIZE -->|g" index.html
           sed -i "s|<!-- UNCOMPRESSED_SIZE -->.*<!-- /UNCOMPRESSED_SIZE -->|<!-- UNCOMPRESSED_SIZE -->${UNCOMPRESSED}<!-- /UNCOMPRESSED_SIZE -->|g" index.html
-          sed -i "s|<!-- DUMP_LINK -->.*<!-- /DUMP_LINK -->|<!-- DUMP_LINK -->${LINK}<!-- /DUMP_LINK -->|g" index.html
+          sed -i "s|<!-- DUMP_LINK -->.*<!-- /DUMP_LINK -->|<!-- DUMP_LINK --><a class="cta-btn" href=\"${LINK}\">Download</a><!-- /DUMP_LINK -->|g" index.html
 
       - name: Update data-docs.html
+        if: steps.check.outputs.action != 'unchanged'
         run: |
           VERSION="${{ steps.check.outputs.current }}"
           DATE="${{ steps.check.outputs.date }}"
@@ -210,8 +220,9 @@ jobs:
           sed -i "s|<!-- DATE -->.*<!-- /DATE -->|<!-- DATE -->${DATE}<!-- /DATE -->|g" data-docs.html
           sed -i "s|<!-- COMPRESSED_SIZE -->.*<!-- /COMPRESSED_SIZE -->|<!-- COMPRESSED_SIZE -->${COMPRESSED}<!-- /COMPRESSED_SIZE -->|g" data-docs.html
           sed -i "s|<!-- UNCOMPRESSED_SIZE -->.*<!-- /UNCOMPRESSED_SIZE -->|<!-- UNCOMPRESSED_SIZE -->${UNCOMPRESSED}<!-- /UNCOMPRESSED_SIZE -->|g" data-docs.html
-          sed -i "s|<!-- DUMP_LINK -->.*<!-- /DUMP_LINK -->|<!-- DUMP_LINK -->${LINK}<!-- /DUMP_LINK -->|g" data-docs.html
+          sed -i "s|<!-- DUMP_LINK -->.*<!-- /DUMP_LINK -->|<!-- DUMP_LINK --><a class="cta-btn" href\"${LINK}\">Download</a><!-- /DUMP_LINK -->|g" data-docs.html
       - name: Regenerate README version table
+        if: steps.check.outputs.action != 'unchanged'
         run: |
           TABLE="| Version | Date | Description | Compressed | Uncompressed | Download |\n"
           TABLE+="| ------- | ---- | ----------- | ---------- | ------------ | -------- |\n"
@@ -228,6 +239,7 @@ jobs:
 
           perl -i -0pe "s@<!-- VERSION_TABLE_START -->.*<!-- VERSION_TABLE_END -->@<!-- VERSION_TABLE_START -->\n${TABLE}<!-- VERSION_TABLE_END -->@gs" README.md
       - name: Commit and push
+        if: steps.check.outputs.action != 'unchanged'
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
@@ -236,6 +248,6 @@ jobs:
           git push
 
       - name: Stop EC2
-        if: always()
+        if: always() && steps.check.outputs.action != 'unchanged'
         run: |
           aws ec2 stop-instances --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
